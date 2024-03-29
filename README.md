@@ -1,3 +1,3 @@
 # COMP3004 Final Project
-Names: 
-Student Numbers: 
+- Names: Paul Airuehia
+- Student Numbers: 101219909
