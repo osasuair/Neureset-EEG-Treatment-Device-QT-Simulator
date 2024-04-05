@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/menuButtonIcon.png</file>
+        <file>images/downArrow.png</file>
+        <file>images/pause.png</file>
+        <file>images/play.png</file>
+        <file>images/stop.png</file>
+        <file>images/upButton.png</file>
+        <file>images/power.png</file>
+        <file>images/chargingBattery.png</file>
+        <file>images/fullBattery.png</file>
+        <file>images/lowBattery.png</file>
+        <file>images/mediumBattery.png</file>
+        <file>images/noBattery.png</file>
+    </qresource>
+</RCC>
