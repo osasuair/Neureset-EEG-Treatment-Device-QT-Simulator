@@ -31,7 +31,6 @@ void MainWindow::startDisableTimer()
         disablePause(!newSession->getPlaying() || newSession->getComplete());
         disableStop(newSession->getComplete());
     });
-    timer->start(500);
 }
 
 void MainWindow::sessionTimeout()
@@ -47,7 +46,6 @@ void MainWindow::startSecondTimer()
         newSession->updateLCDTime(); // Update LCD time in NewSession
         newSession->updateProgressBar();
     });
-    secondTimer->start(1000);
 }
 
 void MainWindow::startNewSession()
@@ -74,7 +72,7 @@ void MainWindow::shutdown()
     if(stackScreen == NEW_SESSION){
        endNewSession();
     }
-
+    stackScreen = OFF;
     ui->stackedWidget->setCurrentIndex(OFF);
 }
 
@@ -125,6 +123,7 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
 {
     int index = ui->menuListWidget->row(item);
+
     if (index == NEW_SESSION-2) {
         startNewSession();
     }
@@ -143,7 +142,7 @@ void MainWindow::on_menuButton_clicked()
        endNewSession();
     }
 
-    ui->stackedWidget->setCurrentIndex(stackScreen = MENU);
+    ui->stackedWidget->setCurrentIndex((stackScreen = MENU));
 }
 
 
