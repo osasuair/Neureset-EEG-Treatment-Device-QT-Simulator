@@ -50,6 +50,7 @@ void MainWindow::startSecondTimer()
 
 void MainWindow::startNewSession()
 {
+    stackScreen = NEW_SESSION;
     ui->stackedWidget->setCurrentIndex(NEW_SESSION);
     timer->start(500);
     secondTimer->start(1000);
@@ -132,6 +133,9 @@ void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_menuButton_clicked()
 {
+    if(!power)
+        return;
+
     if(stackScreen == MENU) {
         QListWidgetItem *item = ui->menuListWidget->selectedItems().at(0);
         on_menuListWidget_itemClicked(item);
