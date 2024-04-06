@@ -5,6 +5,7 @@ NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer)
     progressBar = progress;
     lcdNumber = lcd;
     waitTimer = timer;
+
     updateLCDTime();
 }
 
@@ -43,6 +44,9 @@ void NewSession::resumeSession()
 
 void NewSession::stopSession()
 {
+    if(waitTimer->isActive()) {
+        waitTimer->stop();
+    }
     playing = false;
     complete = true;
 }

@@ -50,9 +50,39 @@ void MainWindow::startSecondTimer()
     secondTimer->start(1000);
 }
 
+void MainWindow::startNewSession()
+{
+    ui->stackedWidget->setCurrentIndex(NEW_SESSION);
+    timer->start(500);
+    secondTimer->start(1000);
+    newSession->startSession(sys_time);
+}
+
+void MainWindow::endNewSession()
+{
+    newSession->stopSession();
+    timer->stop();
+    secondTimer->stop();
+
+    disablePlay(true);
+    disableStop(true);
+    disablePause(true);
+}
+
 void MainWindow::shutdown()
 {
+    if(stackScreen == NEW_SESSION){
+       endNewSession();
+    }
 
+    ui->stackedWidget->setCurrentIndex(OFF);
+}
+
+void MainWindow::powerOn()
+{
+    power=true;
+    stackScreen = MENU;
+    ui->stackedWidget->setCurrentIndex(stackScreen);
 }
 
 void MainWindow::disablePlay(bool disable){
@@ -63,7 +93,6 @@ void MainWindow::disablePause(bool disable){
     emit ui->pauseButton->setDisabled(disable);
 }
 
-
 void MainWindow::disableStop(bool disable){
     emit ui->stopButton->setDisabled(disable);
 }
@@ -73,15 +102,69 @@ void MainWindow::on_playButton_clicked()
     newSession->resumeSession();
 }
 
-
 void MainWindow::on_pauseButton_clicked()
 {
     newSession->pauseSession();
 }
 
-
 void MainWindow::on_stopButton_clicked()
 {
     newSession->stopSession();
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    if(power)
+        shutdown();
+    else
+        powerOn();
+}
+
+
+void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
+{
+    int index = ui->menuListWidget->row(item);
+    if (index == NEW_SESSION-2) {
+        startNewSession();
+    }
+}
+
+
+void MainWindow::on_menuButton_clicked()
+{
+    if(stackScreen == MENU) {
+        QListWidgetItem *item = ui->menuListWidget->selectedItems().at(0);
+        on_menuListWidget_itemClicked(item);
+        return;
+    }
+
+    if(stackScreen == NEW_SESSION){
+       endNewSession();
+    }
+
+    ui->stackedWidget->setCurrentIndex(stackScreen = MENU);
+}
+
+
+void MainWindow::on_menuUpButton_clicked()
+{
+   // Check Bounds
+    int curr = ui->menuListWidget->currentRow();
+
+    if(curr > 0){
+        ui->menuListWidget->setCurrentRow(curr-1);
+    }
+}
+
+
+void MainWindow::on_menuDownButton_clicked()
+{
+    int curr = ui->menuListWidget->currentRow();
+    int max = ui->menuListWidget->count();
+
+    if(curr < max-1){
+        ui->menuListWidget->setCurrentRow(curr+1);
+    }
 }
 

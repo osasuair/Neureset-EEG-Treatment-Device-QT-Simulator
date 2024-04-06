@@ -985,7 +985,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="offScreenPage">
        <widget class="QFrame" name="offScreen">
@@ -1026,6 +1026,9 @@
           <family>Sans</family>
           <pointsize>10</pointsize>
          </font>
+        </property>
+        <property name="currentRow">
+         <number>0</number>
         </property>
         <item>
          <property name="text">
@@ -1271,6 +1274,9 @@
      </widget>
     </widget>
     <widget class="QPushButton" name="pauseButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -1332,6 +1338,9 @@
      </property>
     </widget>
     <widget class="QPushButton" name="stopButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>220</x>
