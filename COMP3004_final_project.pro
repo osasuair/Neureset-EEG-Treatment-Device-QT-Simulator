@@ -18,6 +18,7 @@ HEADERS += \
     log.h \
     mainwindow.h \
     sessiondata.h
+    new_session.h
 
 FORMS += \
     mainwindow.ui
