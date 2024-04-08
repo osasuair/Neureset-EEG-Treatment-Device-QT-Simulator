@@ -40,6 +40,8 @@ public:
      */
     string getWeekdayStr(int num);
 
+    string getData();
+
 
 
 private:

@@ -29,6 +29,10 @@ string SessionData::getDateStr(){
 
 }
 
+string SessionData::getData(){
+    return to_string(getID()) + "      " + getDateStr() + "\n";
+}
+
 int SessionData::getID(){
     return this->id;
 }
