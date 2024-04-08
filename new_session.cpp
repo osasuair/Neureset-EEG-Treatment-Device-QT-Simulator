@@ -2,13 +2,15 @@
 
 int NewSession::id = 0;
 
-NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer)
+NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer):
+    log()
 {
     progressBar = progress;
     lcdNumber = lcd;
     waitTimer = timer;
 
     updateLCDTime();
+
 }
 
 
@@ -60,16 +62,17 @@ void NewSession::timeout()
     qInfo("time OUTT!!!");
 }
 
-SessionLog NewSession::endSession()
+
+
+void NewSession::endSession()
 {
     // End the session and return session log
     complete = true;
-
     SessionLog s;
     s.name = id;
     s.end = end_time;
+    log.addSession(id, time(NULL), 5.0, 8.0);
     id++;
-    return s;
 }
 
 void NewSession::updateLCDTime()

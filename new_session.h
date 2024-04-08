@@ -10,6 +10,7 @@
 #include <QString>
 #include <QPushButton>
 #include <cmath>
+#include "log.h"
 
 struct SessionLog{
     int name;
@@ -29,7 +30,7 @@ public:
     void resumeSession();
     void stopSession();
     void timeout();
-    SessionLog endSession();
+    void endSession();
 
     void updateLCDTime();
     void updateProgressBar();
@@ -43,6 +44,7 @@ private:
     bool complete = false;
     time_t start_time;
     time_t end_time;
+    Log log;
 
     int secondsRemaining = 5*60;
     int duration = 0; // Track running duration

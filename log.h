@@ -4,6 +4,9 @@
 #include <QObject>
 #include <vector>
 #include <iostream>
+#include <QStandardItem>
+#include <QStandardItemModel>
+#include <QListView>
 
 #include "sessiondata.h"
 
@@ -24,10 +27,20 @@ public:
     // display date, time and baseline frequencies
     void printToPC();
 
+
+    void setListView(QListView *list);
+
+    void setupHeader();
+
+
+
+
 signals:
 
 private:
     vector<SessionData*> sessionArr;
+    QStandardItemModel *logModel;
+    QListView *logView;
 
 
 };
