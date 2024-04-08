@@ -2,10 +2,10 @@
 
 using namespace std;
 
-SessionData::SessionData(int id, tm *time, float baseline_before, float baseline_after)
+SessionData::SessionData(int id, time_t time, float baseline_before, float baseline_after)
 {
   this-> id = id;
-  session_time = time;
+  session_time = localtime(&time);
   before_baseline = baseline_before;
   after_baseline = baseline_after;
   day = getWeekdayStr(session_time->tm_wday);

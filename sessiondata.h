@@ -10,7 +10,7 @@ using namespace std;
 class SessionData
 {
 public:
-    SessionData(int id, tm *time, float before_baseline,float after_baseline);
+    SessionData(int id, time_t time, float before_baseline,float after_baseline);
 
     // GETTERS
 
