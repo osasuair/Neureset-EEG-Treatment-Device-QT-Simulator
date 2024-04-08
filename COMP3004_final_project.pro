@@ -12,12 +12,13 @@ SOURCES += \
     log.cpp \
     main.cpp \
     mainwindow.cpp \
-    sessiondata.cpp
+    sessiondata.cpp \
+    new_session.cpp
 
 HEADERS += \
     log.h \
     mainwindow.h \
-    sessiondata.h
+    sessiondata.h \
     new_session.h
 
 FORMS += \
