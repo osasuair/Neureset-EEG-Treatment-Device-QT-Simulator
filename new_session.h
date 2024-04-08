@@ -13,6 +13,7 @@
 
 struct SessionLog{
     int name;
+    time_t end;
 };
 
 class NewSession
@@ -36,6 +37,7 @@ public:
     bool getComplete() const;
 
 private:
+    static int id;
     int progress = 0;
     bool playing = false;
     bool complete = false;

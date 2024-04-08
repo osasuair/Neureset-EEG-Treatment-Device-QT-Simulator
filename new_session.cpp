@@ -1,5 +1,7 @@
 #include "new_session.h"
 
+int NewSession::id = 0;
+
 NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer)
 {
     progressBar = progress;
@@ -64,6 +66,9 @@ SessionLog NewSession::endSession()
     complete = true;
 
     SessionLog s;
+    s.name = id;
+    s.end = end_time;
+    id++;
     return s;
 }
 
