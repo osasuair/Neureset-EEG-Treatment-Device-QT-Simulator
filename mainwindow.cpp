@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     logModel = new QStandardItemModel(this);
+    ui->sessionLogListView->setModel(logModel);
     sys_time = time(NULL);
     QTimer *sessionWaitTimer = new QTimer(this);
     newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer);
@@ -18,6 +19,17 @@ MainWindow::MainWindow(QWidget *parent)
     startDisableTimer();
     startSecondTimer(); // Update every second
 
+    updateLog(1, time(NULL), 2, 5);
+    updateLog(1, time(NULL), 2, 5);
+
+    updateLog(1, time(NULL), 2, 5);
+    updateLog(1, time(NULL), 2, 5);
+    updateLog(1, time(NULL), 2, 5);
+    updateLog(1, time(NULL), 2, 5);
+
+    updateLog(1, time(NULL), 2, 5);
+    updateLog(1, time(NULL), 2, 5);
+
     newSession->startSession(sys_time);
 }
 
@@ -25,6 +37,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 
 void MainWindow::startDisableTimer()
 {
@@ -82,11 +95,15 @@ void MainWindow::updateLog(int id, time_t time, float before_baseline,float afte
     // Convert the data strings to QStrings
     QString qID_Str = QString::fromStdString(ID_Str);
     QString qDateStr = QString::fromStdString(dateStr);
+    string data = session->getData();
+    QString record = QString::fromStdString(data);
+
 
     // Add a row to the model
-    QList<QStandardItem*> rowItems;
-    rowItems.append(new QStandardItem(qID_Str)); // Add the date string as the first column
-    rowItems.append(new QStandardItem(qDateStr)); // Add the data string as the second column
+       QList<QStandardItem*> rowItems;
+//    rowItems.append(new QStandardItem(qID_Str)); // Add the date string as the first column
+//    rowItems.append(new QStandardItem(qDateStr)); // Add the data string as the second column
+       rowItems.append(new QStandardItem(record));
 
     logModel->appendRow(rowItems);
 
@@ -95,14 +112,15 @@ void MainWindow::updateLog(int id, time_t time, float before_baseline,float afte
 void MainWindow::setupSessionLog(){
 
     // Header Values to be displayed in SEssion LOg
-    QString dateHeader = QString::fromStdString("DATE");
-    QString IDstr = QString::fromStdString("ID");
+    string header = "ID     DATE";
+    QString dateHeader = QString::fromStdString(header);
+
 
     // Add a row to the model
     QList<QStandardItem*> rowItems;
     rowItems.append(new QStandardItem(dateHeader)); // Add the date string as the first column
-    rowItems.append(new QStandardItem(IDstr)); // Add the data string as the second column
     logModel->appendRow(rowItems);
+
 }
 
 void MainWindow::shutdown()
@@ -161,12 +179,22 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
 {
     int index = ui->menuListWidget->row(item);
-
+    cout<<index<<endl;
     if (index == NEW_SESSION-2) {
         startNewSession();
     }
+    else if(index == NEW_SESSION-1){
+        cout<<"Session log"<<endl;
+        showSessionLog();
+    }
+
 }
 
+void MainWindow::showSessionLog(){
+    stackScreen = SESSION_LOG;
+    ui->stackedWidget->setCurrentIndex(SESSION_LOG);
+
+}
 
 void MainWindow::on_menuButton_clicked()
 {

@@ -35,12 +35,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
     void startNewSession();
     void startDisableTimer();
     void sessionTimeout();
     void startSecondTimer();
     void endNewSession();
 
+    void showSessionLog();
     void setupSessionLog();
     void updateLog(int id, time_t time, float before_baseline,float after_baseline);
 
