@@ -17,7 +17,7 @@ string SessionData::getWeekdayStr(int num){
     if (num < 0 || num > 6) {
         return "";
     } else {
-        char *days[7] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday'"];
+        string days[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         return days[num];
     }
 }
