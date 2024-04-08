@@ -3,9 +3,10 @@
 using namespace std;
 
 Log::Log(QObject *parent)
-    : QObject{parent}
+    : QObject{parent},
+    sessionArr()
 {
-
+    
 }
 
 
@@ -19,10 +20,14 @@ Log::~Log(){
 
 // buch of sessiondata pointers
 
-void Log::addSession (int id, tm* now, float before_baseline, float after_baseline){
+void Log::addSession (int id, time_t now, float before_baseline, float after_baseline){
     SessionData *session = new SessionData(id, now, before_baseline, after_baseline);
     sessionArr.push_back(session);
 
+}
+
+void Log::addSession(SessionData * session){
+    sessionArr.push_back(session);
 }
 
 // only display date and time from sessions

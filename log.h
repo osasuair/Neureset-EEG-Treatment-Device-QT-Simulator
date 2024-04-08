@@ -2,9 +2,10 @@
 #define LOG_H
 
 #include <QObject>
-#include "sessiondata.h"
 #include <vector>
 #include <iostream>
+
+#include "sessiondata.h"
 
 using namespace std;
 
@@ -14,7 +15,8 @@ class Log : public QObject
 public:
     explicit Log(QObject *parent = nullptr);
     ~Log();
-    void addSession(int id, tm* now, float before_baseline, float after_baseine);
+    void addSession(int id, time_t now, float before_baseline, float after_baseine);
+    void addSession(SessionData * session);
 
     // only display date and time from sessions
     void printSession();
