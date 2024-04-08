@@ -6,9 +6,13 @@
 #include <QWidget>
 #include <QTimer>
 #include <QListWidgetItem>
+#include <QStandardItemModel>
+#include <QStandardItem>
 #include <ctime>
+#include <string>
 
 #include "new_session.h"
+#include "log.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +41,9 @@ public:
     void startSecondTimer();
     void endNewSession();
 
+    void setupSessionLog();
+    void updateLog(int id, time_t time, float before_baseline,float after_baseline);
+
     void shutdown();
     void powerOn();
 
@@ -51,6 +58,8 @@ private:
     QTimer *secondTimer; // Timer
     time_t sys_time; // Current time
     NewSession* newSession;
+    QStandardItemModel *logModel;
+    Log log;
 
 public slots:
     void disablePlay(bool disable);

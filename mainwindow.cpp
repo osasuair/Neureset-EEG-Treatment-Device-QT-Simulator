@@ -4,14 +4,17 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    ,log()
 {
     ui->setupUi(this);
 
+    logModel = new QStandardItemModel(this);
     sys_time = time(NULL);
     QTimer *sessionWaitTimer = new QTimer(this);
     newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
 
+    setupSessionLog();
     startDisableTimer();
     startSecondTimer(); // Update every second
 
@@ -66,6 +69,40 @@ void MainWindow::endNewSession()
     disablePlay(true);
     disableStop(true);
     disablePause(true);
+}
+
+void MainWindow::updateLog(int id, time_t time, float before_baseline,float after_baseline){
+    SessionData *session = new SessionData (id, time, before_baseline, after_baseline);
+    log.addSession(session);
+
+    // Get the data from the SessionData object
+    string ID_Str = to_string(session->getID());
+    string dateStr = session->getDateStr();
+
+    // Convert the data strings to QStrings
+    QString qID_Str = QString::fromStdString(ID_Str);
+    QString qDateStr = QString::fromStdString(dateStr);
+
+    // Add a row to the model
+    QList<QStandardItem*> rowItems;
+    rowItems.append(new QStandardItem(qID_Str)); // Add the date string as the first column
+    rowItems.append(new QStandardItem(qDateStr)); // Add the data string as the second column
+
+    logModel->appendRow(rowItems);
+
+}
+
+void MainWindow::setupSessionLog(){
+
+    // Header Values to be displayed in SEssion LOg
+    QString dateHeader = QString::fromStdString("DATE");
+    QString IDstr = QString::fromStdString("ID");
+
+    // Add a row to the model
+    QList<QStandardItem*> rowItems;
+    rowItems.append(new QStandardItem(dateHeader)); // Add the date string as the first column
+    rowItems.append(new QStandardItem(IDstr)); // Add the data string as the second column
+    logModel->appendRow(rowItems);
 }
 
 void MainWindow::shutdown()
