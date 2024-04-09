@@ -20,7 +20,7 @@ struct SessionLog{
 class NewSession
 {
 public:
-    NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer);
+    NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log*);
 
     bool getPlaying() const;
 
@@ -44,7 +44,7 @@ private:
     bool complete = false;
     time_t start_time;
     time_t end_time;
-    Log log;
+    Log *log;
 
     int secondsRemaining = 5*60;
     int duration = 0; // Track running duration

@@ -80,5 +80,6 @@ private slots:
     void on_menuButton_clicked();
     void on_menuUpButton_clicked();
     void on_menuDownButton_clicked();
+    void on_sessionButton_clicked();
 };
 #endif // MAINWINDOW_H

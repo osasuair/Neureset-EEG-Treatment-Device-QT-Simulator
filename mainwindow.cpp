@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow)\
     ,log()
 {
     ui->setupUi(this);
@@ -13,16 +13,14 @@ MainWindow::MainWindow(QWidget *parent)
     log.setListView(ui->sessionLogListView);
     sys_time = time(NULL);
     QTimer *sessionWaitTimer = new QTimer(this);
-    newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer);
+    newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
 
 
     startDisableTimer();
     startSecondTimer(); // Update every second
 
-
     newSession->startSession(sys_time);
-
 
 }
 
@@ -191,5 +189,11 @@ void MainWindow::on_menuDownButton_clicked()
     if(curr < max-1){
         ui->menuListWidget->setCurrentRow(curr+1);
     }
+}
+
+
+void MainWindow::on_sessionButton_clicked()
+{
+   log.printToPC();
 }
 

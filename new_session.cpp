@@ -2,13 +2,12 @@
 
 int NewSession::id = 0;
 
-NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer):
-    log()
-{
+NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection){
     progressBar = progress;
     lcdNumber = lcd;
     waitTimer = timer;
 
+    log = collection;
     updateLCDTime();
 
 }
@@ -71,7 +70,7 @@ void NewSession::endSession()
     SessionLog s;
     s.name = id;
     s.end = end_time;
-    log.addSession(id, time(NULL), 5.0, 8.0);
+    log->addSession(id, time(NULL), 5.0, 8.0);
     id++;
 }
 
