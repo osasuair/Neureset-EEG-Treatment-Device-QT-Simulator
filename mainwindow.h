@@ -37,6 +37,8 @@ public:
     void startSecondTimer();
     void endNewSession();
 
+    void triggerDateChange();
+
     void shutdown();
     void powerOn();
 
@@ -69,5 +71,6 @@ private slots:
     void on_menuButton_clicked();
     void on_menuUpButton_clicked();
     void on_menuDownButton_clicked();
+    void on_pushButton_2_clicked();
 };
 #endif // MAINWINDOW_H

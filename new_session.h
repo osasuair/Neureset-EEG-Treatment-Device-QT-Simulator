@@ -48,6 +48,7 @@ private:
     QProgressBar *progressBar;
     QLCDNumber *lcdNumber;
     QTimer *waitTimer;
+    QDateTime *time;
 };
 
 #endif // NEW_SESSION_H

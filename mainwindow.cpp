@@ -127,7 +127,14 @@ void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
 
     if (index == NEW_SESSION-2) {
         startNewSession();
+    } else if (index == 2) {
+        triggerDateChange();
     }
+}
+
+void MainWindow::triggerDateChange() {
+    stackScreen = 4;
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 
@@ -169,5 +176,13 @@ void MainWindow::on_menuDownButton_clicked()
     if(curr < max-1){
         ui->menuListWidget->setCurrentRow(curr+1);
     }
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QDateTime datetime = ui->dateTimeEdit->dateTime();
+    sys_time = datetime.toTime_t();
+
 }
 
