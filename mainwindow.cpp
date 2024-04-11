@@ -4,24 +4,29 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    ,log()
 {
     ui->setupUi(this);
-
     sys_time = time(NULL);
+
+    logModel = new QStandardItemModel(this);
+    ui->sessionLogListView->setModel(logModel);
+    log.setListView(ui->sessionLogListView);
+
     QTimer *sessionWaitTimer = new QTimer(this);
-    newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer);
+    newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
+
 
     startDisableTimer();
     startSecondTimer(); // Update every second
-
-    newSession->startSession(sys_time);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 
 void MainWindow::startDisableTimer()
 {
@@ -43,8 +48,7 @@ void MainWindow::startSecondTimer()
 {
     secondTimer = new QTimer(this);
     connect(secondTimer, &QTimer::timeout, [this]() {
-        newSession->updateLCDTime(); // Update LCD time in NewSession
-        newSession->updateProgressBar();
+        newSession->secondUpdates();
     });
 }
 
@@ -55,6 +59,7 @@ void MainWindow::startNewSession()
     timer->start(500);
     secondTimer->start(1000);
     newSession->startSession(sys_time);
+
 }
 
 void MainWindow::endNewSession()
@@ -68,11 +73,14 @@ void MainWindow::endNewSession()
     disablePause(true);
 }
 
+
+
 void MainWindow::shutdown()
 {
     if(stackScreen == NEW_SESSION){
        endNewSession();
     }
+    power = false;
     stackScreen = OFF;
     ui->stackedWidget->setCurrentIndex(OFF);
 }
@@ -124,17 +132,30 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
 {
     int index = ui->menuListWidget->row(item);
-
+    cout<<index<<endl;
     if (index == NEW_SESSION-2) {
         startNewSession();
     } else if (index == 2) {
         triggerDateChange();
     }
+    else if(index == NEW_SESSION-1){
+        cout<<"Session log"<<endl;
+        showSessionLog();
+    }
+
 }
 
+
+void MainWindow::showSessionLog(){
+    stackScreen = SESSION_LOG;
+    ui->stackedWidget->setCurrentIndex(SESSION_LOG);
+
+}
+
+
 void MainWindow::triggerDateChange() {
-    stackScreen = 4;
-    ui->stackedWidget->setCurrentIndex(4);
+    stackScreen = DATE_TIME;
+    ui->stackedWidget->setCurrentIndex(DATE_TIME);
 }
 
 
@@ -179,10 +200,14 @@ void MainWindow::on_menuDownButton_clicked()
 }
 
 
+void MainWindow::on_sessionButton_clicked()
+{
+   log.printToPC();
+}
+
 void MainWindow::on_pushButton_2_clicked()
 {
     QDateTime datetime = ui->dateTimeEdit->dateTime();
     sys_time = datetime.toTime_t();
-
 }
 

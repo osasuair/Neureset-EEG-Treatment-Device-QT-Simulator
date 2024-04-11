@@ -6,9 +6,13 @@
 #include <QWidget>
 #include <QTimer>
 #include <QListWidgetItem>
+#include <QStandardItemModel>
+#include <QStandardItem>
 #include <ctime>
+#include <string>
 
 #include "new_session.h"
+#include "log.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +23,7 @@ enum stackScreens {
     MENU,
     NEW_SESSION,
     SESSION_LOG,
-    TIME
+    DATE_TIME
 };
 
 
@@ -31,13 +35,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
     void startNewSession();
     void startDisableTimer();
     void sessionTimeout();
     void startSecondTimer();
     void endNewSession();
 
+    void showSessionLog();
+    void setupSessionLog();
+    void updateLog(int id, time_t time, float before_baseline,float after_baseline);
+
     void triggerDateChange();
+
 
     void shutdown();
     void powerOn();
@@ -53,6 +63,8 @@ private:
     QTimer *secondTimer; // Timer
     time_t sys_time; // Current time
     NewSession* newSession;
+    QStandardItemModel *logModel;
+    Log log;
 
 public slots:
     void disablePlay(bool disable);
@@ -71,6 +83,7 @@ private slots:
     void on_menuButton_clicked();
     void on_menuUpButton_clicked();
     void on_menuDownButton_clicked();
+    void on_sessionButton_clicked();
     void on_pushButton_2_clicked();
 };
 #endif // MAINWINDOW_H

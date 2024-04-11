@@ -1,11 +1,13 @@
 #include "new_session.h"
 
-NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer)
-{
+int NewSession::id = 0;
+
+NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection){
     progressBar = progress;
     lcdNumber = lcd;
     waitTimer = timer;
 
+    log = collection;
     updateLCDTime();
 }
 
@@ -21,8 +23,6 @@ void NewSession::startSession(time_t start_time)
     playing = true;
     // Update start_time
     this->start_time = start_time;
-    // Reset duration
-    duration = 0;
     // Set secondsRemaining to 5min
     secondsRemaining = 5*60;
 }
@@ -58,24 +58,29 @@ void NewSession::timeout()
     qInfo("time OUTT!!!");
 }
 
-SessionLog NewSession::endSession()
+
+
+void NewSession::endSession()
 {
     // End the session and return session log
     complete = true;
-
-    SessionLog s;
-    return s;
+    log->addSession(id, end_time, 5.0, 8.0);
+    id++;
 }
 
-void NewSession::updateLCDTime()
+void NewSession::secondUpdates()
 {
     // Update values
-    duration++;
     if (playing) {
         secondsRemaining--;
         progress = 100-std::round(float(secondsRemaining)/300*100);
     }
+    updateLCDTime();
+    updateProgressBar();;
+}
 
+void NewSession::updateLCDTime()
+{
     int minutes = secondsRemaining / 60;
     int seconds = secondsRemaining % 60;
 
