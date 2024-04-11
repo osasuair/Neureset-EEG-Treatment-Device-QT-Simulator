@@ -3,11 +3,9 @@
 
 #include <ctime>
 #include <vector>
-#include "sitemanager.h"
 
 #include <QProgressBar>
 #include <QLCDNumber>
-#include "qcustomplot.h"
 #include <QTimer>
 #include <QString>
 #include <QPushButton>
@@ -23,7 +21,6 @@ public:
     NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer);
 
     bool getPlaying() const;
-    void setWavePlot(QCustomPlot *wavePlot);
 
     void clearSession();
     void startSession(time_t start_time);
@@ -51,8 +48,6 @@ private:
     QProgressBar *progressBar;
     QLCDNumber *lcdNumber;
     QTimer *waitTimer;
-    SiteManager *siteManager;
-
 };
 
 #endif // NEW_SESSION_H
