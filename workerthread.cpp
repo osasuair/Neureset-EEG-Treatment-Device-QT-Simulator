@@ -11,7 +11,7 @@ void WorkerThread::run()
     if (mainWindow != nullptr) {
         qDebug() << "before.";
         QMutexLocker locker(&mutex);
-        mainWindow->createWaveforms(); // Call createWaveforms() function from MainWindow
+//        mainWindow->createWaveforms(); // Call createWaveforms() function from MainWindow
         qDebug() << ".";
     }
 
