@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     sys_time = time(NULL);
+    ui->dateTimeEdit->setDateTime(QDateTime::fromSecsSinceEpoch(sys_time));
 
     logModel = new QStandardItemModel(this);
     ui->sessionLogListView->setModel(logModel);
