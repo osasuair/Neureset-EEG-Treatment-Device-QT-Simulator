@@ -12,11 +12,6 @@
 #include <cmath>
 #include "log.h"
 
-struct SessionLog{
-    int name;
-    time_t end;
-};
-
 class NewSession
 {
 public:
@@ -32,6 +27,7 @@ public:
     void timeout();
     void endSession();
 
+    void secondUpdates();
     void updateLCDTime();
     void updateProgressBar();
 
@@ -47,7 +43,6 @@ private:
     Log *log;
 
     int secondsRemaining = 5*60;
-    int duration = 0; // Track running duration
 
     QProgressBar *progressBar;
     QLCDNumber *lcdNumber;

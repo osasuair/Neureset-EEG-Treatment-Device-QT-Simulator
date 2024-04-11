@@ -48,8 +48,7 @@ void MainWindow::startSecondTimer()
 {
     secondTimer = new QTimer(this);
     connect(secondTimer, &QTimer::timeout, [this]() {
-        newSession->updateLCDTime(); // Update LCD time in NewSession
-        newSession->updateProgressBar();
+        newSession->secondUpdates();
     });
 }
 
