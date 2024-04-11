@@ -1213,8 +1213,14 @@
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
+        <property name="currentSection">
+         <enum>QDateTimeEdit::MonthSection</enum>
+        </property>
+        <property name="displayFormat">
+         <string>MM/dd/yy h:mm AP</string>
+        </property>
         <property name="calendarPopup">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
        <widget class="QLabel" name="label">
@@ -1256,7 +1262,7 @@
        </widget>
        <widget class="QPushButton" name="pushButton_2">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="geometry">
          <rect>

@@ -135,6 +135,8 @@ void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
     cout<<index<<endl;
     if (index == NEW_SESSION-2) {
         startNewSession();
+    } else if (index == 2) {
+        triggerDateChange();
     }
     else if(index == NEW_SESSION-1){
         cout<<"Session log"<<endl;
@@ -143,11 +145,19 @@ void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
 
 }
 
+
 void MainWindow::showSessionLog(){
     stackScreen = SESSION_LOG;
     ui->stackedWidget->setCurrentIndex(SESSION_LOG);
 
 }
+
+
+void MainWindow::triggerDateChange() {
+    stackScreen = DATE_TIME;
+    ui->stackedWidget->setCurrentIndex(DATE_TIME);
+}
+
 
 void MainWindow::on_menuButton_clicked()
 {
@@ -193,5 +203,11 @@ void MainWindow::on_menuDownButton_clicked()
 void MainWindow::on_sessionButton_clicked()
 {
    log.printToPC();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QDateTime datetime = ui->dateTimeEdit->dateTime();
+    sys_time = datetime.toTime_t();
 }
 

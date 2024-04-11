@@ -23,7 +23,7 @@ enum stackScreens {
     MENU,
     NEW_SESSION,
     SESSION_LOG,
-    TIME
+    DATE_TIME
 };
 
 
@@ -45,6 +45,9 @@ public:
     void showSessionLog();
     void setupSessionLog();
     void updateLog(int id, time_t time, float before_baseline,float after_baseline);
+
+    void triggerDateChange();
+
 
     void shutdown();
     void powerOn();
@@ -81,5 +84,6 @@ private slots:
     void on_menuUpButton_clicked();
     void on_menuDownButton_clicked();
     void on_sessionButton_clicked();
+    void on_pushButton_2_clicked();
 };
 #endif // MAINWINDOW_H
