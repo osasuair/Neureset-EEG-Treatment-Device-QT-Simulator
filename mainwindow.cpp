@@ -3,15 +3,16 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)\
+    , ui(new Ui::MainWindow)
     ,log()
 {
     ui->setupUi(this);
+    sys_time = time(NULL);
 
     logModel = new QStandardItemModel(this);
     ui->sessionLogListView->setModel(logModel);
     log.setListView(ui->sessionLogListView);
-    sys_time = time(NULL);
+
     QTimer *sessionWaitTimer = new QTimer(this);
     newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
@@ -19,9 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     startDisableTimer();
     startSecondTimer(); // Update every second
-
-    newSession->startSession(sys_time);
-
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +81,7 @@ void MainWindow::shutdown()
     if(stackScreen == NEW_SESSION){
        endNewSession();
     }
+    power = false;
     stackScreen = OFF;
     ui->stackedWidget->setCurrentIndex(OFF);
 }
