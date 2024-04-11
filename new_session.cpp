@@ -9,7 +9,6 @@ NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, L
 
     log = collection;
     updateLCDTime();
-
 }
 
 

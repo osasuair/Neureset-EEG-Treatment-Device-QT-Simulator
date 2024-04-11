@@ -23,9 +23,9 @@ string SessionData::getWeekdayStr(int num){
 }
 
 string SessionData::getDateStr(){
-    return to_string(this->session_time->tm_mday) + "/"
-            + to_string(this->session_time->tm_mon) + "/"
-            +to_string(this->session_time->tm_year);
+    return to_string(1+this->session_time->tm_mon) + "/"
+            +to_string(this->session_time->tm_mday) + "/"
+            +to_string(1900+this->session_time->tm_year);
 
 }
 
