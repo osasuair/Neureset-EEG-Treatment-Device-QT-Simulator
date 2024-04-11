@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++11
 
@@ -11,11 +11,15 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    new_session.cpp
+    new_session.cpp \
+    qcustomplot.cpp \
+    workerthread.cpp
 
 HEADERS += \
     mainwindow.h \
-    new_session.h
+    new_session.h \
+    qcustomplot.h \
+    workerthread.h
 
 FORMS += \
     mainwindow.ui
