@@ -12,12 +12,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     new_session.cpp \
+    sitemanager.cpp \
     qcustomplot.cpp \
     workerthread.cpp
 
 HEADERS += \
     mainwindow.h \
     new_session.h \
+    sitemanager.h \
     qcustomplot.h \
     workerthread.h
 

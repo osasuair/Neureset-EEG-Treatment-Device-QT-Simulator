@@ -5,6 +5,7 @@ NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer)
     progressBar = progress;
     lcdNumber = lcd;
     waitTimer = timer;
+    siteManager = new SiteManager();
 
     updateLCDTime();
 }
@@ -15,16 +16,26 @@ bool NewSession::getPlaying() const
     return playing;
 }
 
+void NewSession::setWavePlot(QCustomPlot *wavePlot)
+{
+    siteManager->setWaveFormGraph(wavePlot);
+}
+
 void NewSession::startSession(time_t start_time)
 {
+    siteManager->reset();
+
     complete = false;
     playing = true;
+
     // Update start_time
+    siteManager->startNewSessionTimer();
+
     this->start_time = start_time;
     // Reset duration
     duration = 0;
     // Set secondsRemaining to 5min
-    secondsRemaining = 5*60;
+    secondsRemaining = 322;
 }
 
 void NewSession::pauseSession()
@@ -73,7 +84,9 @@ void NewSession::updateLCDTime()
     duration++;
     if (playing) {
         secondsRemaining--;
-        progress = 100-std::round(float(secondsRemaining)/300*100);
+
+        progress = 100-std::round(float(secondsRemaining)/321*100);
+
     }
 
     int minutes = secondsRemaining / 60;

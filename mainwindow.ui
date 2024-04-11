@@ -2592,7 +2592,7 @@ Baselines</string>
      </property>
     </widget>
    </widget>
-   <widget class="QCustomPlot" name="check123" native="true">
+   <widget class="QCustomPlot" name="waveFormGraph" native="true">
     <property name="geometry">
      <rect>
       <x>400</x>
