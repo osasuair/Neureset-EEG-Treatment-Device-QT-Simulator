@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     sys_time = time(NULL);
     ui->dateTimeEdit->setDateTime(QDateTime::fromSecsSinceEpoch(sys_time));
+    ui->stackedWidget->setCurrentIndex(OFF);
 
     logModel = new QStandardItemModel(this);
     ui->sessionLogListView->setModel(logModel);
@@ -187,6 +188,7 @@ void MainWindow::on_menuUpButton_clicked()
     if(curr > 0){
         ui->menuListWidget->setCurrentRow(curr-1);
     }
+    log.addSession(1, sys_time, 0, 10);
 }
 
 
