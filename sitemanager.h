@@ -33,8 +33,10 @@ public:
 
     void reset();
     void createPlot();
-    void createWaveforms();
+    void createWaveforms(std::default_random_engine& re);
     void applyTreatment(int site);
+
+    std::default_random_engine re;
 
 public slots:
     void startNewSessionTimer();
