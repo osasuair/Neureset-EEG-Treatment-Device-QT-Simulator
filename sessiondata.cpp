@@ -11,7 +11,14 @@ SessionData::SessionData(int id, time_t time, float baseline_before, float basel
   day = getWeekdayStr(session_time->tm_wday);
 }
 
-// function to return the string version of the weekday from struct tm
+/**
+ * @brief return the string version of the weekday from struct tm
+ *
+ * @param num takes the integer representing the weekday in the struct tm
+ * @return string representation of the day of the week
+ *
+ * @warning returns empty string if num is less than 0 or greater than 6
+ */
 string SessionData::getWeekdayStr(int num){
 
     if (num < 0 || num > 6) {
@@ -22,6 +29,13 @@ string SessionData::getWeekdayStr(int num){
     }
 }
 
+/**
+ * @brief return the string version of the date from struct tm in the format dd/mm/yyyy
+ *
+ * @param num takes a tm struct from ctime.h
+ * @return string representation of the date (dd/mm/yyyy)
+ *
+ */
 string SessionData::getDateStr(){
     string am_pm = (this->session_time->tm_hour < 12) ? "AM" : "PM";
     int hour = (this->session_time->tm_hour < 12) ? this->session_time->tm_hour : this->session_time->tm_hour - 12;
@@ -47,7 +61,6 @@ int SessionData::getID(){
 
 int SessionData::getBeforeBaseline(){
     return this->before_baseline;
-
 }
 
 int SessionData::getAfterBaseline(){

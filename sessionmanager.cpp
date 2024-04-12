@@ -18,8 +18,8 @@ SessionManager::SessionManager(QProgressBar *progress, QLCDNumber *lcd, QTimer *
 
     flashTimer = new QTimer(this);
 
-    connect(flashTimer, &QTimer::timeout, [this]() {emit flashRedLight(); qDebug("beep"); });
-    connect(siteManager, &SiteManager::sessionOver, this, &SessionManager::endSession);
+    connect(flashTimer, &QTimer::timeout, [this]() {emit flashRedLight(); qDebug("beep"); });  // Flash red light
+    connect(siteManager, &SiteManager::sessionOver, this, &SessionManager::endSession);  // End session
     connect(siteManager, &SiteManager::completeRound, this, &SessionManager::roundComplete);
     connect(siteManager, &SiteManager::completeTreatment, this, &SessionManager::treatmentComplete);
 }
@@ -30,11 +30,21 @@ bool SessionManager::getPlaying() const
     return playing;
 }
 
+/**
+ * @brief SessionManager::setWavePlot
+ * @param wavePlot QCustomPlot* wavePlot
+ * Set the wavePlot to the SiteManager
+*/
 void SessionManager::setWavePlot(QCustomPlot *wavePlot)
 {
     siteManager->setWaveFormGraph(wavePlot);
 }
 
+/**
+ * @brief SessionManager::clearSession
+ * @param start_time time_t start time of the session
+ * Clear the session and reset the SiteManager
+*/
 void SessionManager::startSession(time_t start_time)
 {
     bool batteryDead = emit lowerBattery();
@@ -52,6 +62,10 @@ void SessionManager::startSession(time_t start_time)
     emit flashBlueLight();
 }
 
+/**
+ * @brief SessionManager::pauseSession
+ * Pause the session and start the waitTimer
+*/
 void SessionManager::pauseSession()
 {
     playing = false;
@@ -60,6 +74,10 @@ void SessionManager::pauseSession()
     siteManager->pauseSession();
 }
 
+/**
+ * @brief SessionManager::resumeSession
+ * Resume the session and stop the waitTimer
+*/
 void SessionManager::resumeSession()
 {
     waitTimer->stop();
@@ -72,6 +90,10 @@ void SessionManager::resumeSession()
     playing = true;
 }
 
+/**
+ * @brief SessionManager::stopSession
+ * Stop the session and reset the SiteManager
+*/
 void SessionManager::stopSession()
 {
     if(waitTimer->isActive()) {
@@ -83,6 +105,10 @@ void SessionManager::stopSession()
     complete = true;
 }
 
+/**
+ * @brief SessionManager::timeout
+ * Session has been paused for too long -> timeout the session
+*/
 void SessionManager::timeout()
 {
     playing = false;
@@ -90,6 +116,10 @@ void SessionManager::timeout()
     qInfo("time OUTT!!!");
 }
 
+/**
+ * @brief SessionManager::endSession
+ * End the session and log the session
+*/
 void SessionManager::endSession()
 {
     // End the session and return session log
@@ -104,26 +134,35 @@ void SessionManager::endSession()
     id++;
 }
 
+/**
+ * @brief SessionManager::roundComplete
+ * Round is complete -> start treatment phase
+*/
 void SessionManager::roundComplete()
 {
     siteManager->startTreatmentPhase();
     emit flashGreenLight();
 }
 
+/**
+ * @brief SessionManager::treatmentComplete
+ * Treatment phase is complete -> start new session
+*/
 void SessionManager::treatmentComplete()
 {
     emit flashGreenLight();
     siteManager->createPlot();
-    //siteManager->generated_waveforms.clear();
     if(siteManager->round <6){
         siteManager->startNewSessionTimer();
         return;
     }
     endSession();
-
-
 }
 
+/**
+ * @brief SessionManager::secondUpdates
+ * Update the session every second
+*/
 void SessionManager::secondUpdates()
 {
     // Update values
@@ -135,6 +174,10 @@ void SessionManager::secondUpdates()
     updateProgressBar();;
 }
 
+/**
+ * @brief SessionManager::updateLCDTime
+ * Update the LCD time
+*/
 void SessionManager::updateLCDTime()
 {
     int minutes = secondsRemaining / 60;
@@ -147,6 +190,10 @@ void SessionManager::updateLCDTime()
     lcdNumber->display(displayText);
 }
 
+/**
+ * @brief SessionManager::updateProgressBar
+ * Update the progress bar
+*/
 void SessionManager::updateProgressBar()
 {
     if (progressBar->value() != progress)
@@ -155,6 +202,11 @@ void SessionManager::updateProgressBar()
     }
 }
 
+/**
+ * @brief SessionManager::getComplete
+ * @return bool complete
+ * Return if the session is complete
+*/
 bool SessionManager::getComplete() const
 {
     return complete;

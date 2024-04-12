@@ -31,7 +31,7 @@ public:
     void pauseSession();
     void resumeSession();
     void stopSession();
-    void timeout();
+    void timeout();  // Session Timeout function
 
     void secondUpdates();
     void updateLCDTime();
@@ -58,7 +58,7 @@ private:
     time_t start_time;
     time_t end_time;
 
-    int secondsRemaining = 5*60;
+    int secondsRemaining = 305;  // 5 minutes and 5 seconds for LCD display
 
     QProgressBar *progressBar;
     QLCDNumber *lcdNumber;
