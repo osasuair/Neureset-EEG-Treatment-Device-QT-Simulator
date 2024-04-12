@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
 
+    connect(newSession, &NewSession::lowerBattery, this, &MainWindow::batteryLowered);
 
     startDisableTimer();
     startSecondTimer(); // Update every second
@@ -104,6 +105,24 @@ void MainWindow::disablePause(bool disable){
 
 void MainWindow::disableStop(bool disable){
     emit ui->stopButton->setDisabled(disable);
+}
+
+void MainWindow::batteryLowered()
+{
+    --batteryLevel;
+
+    QPixmap mypix;
+    if(batteryLevel <= 0) {
+        batteryLevel = 0;
+        mypix = QPixmap(":/images/noBattery.png");
+    } else if (batteryLevel == 1) {
+        mypix = QPixmap(":/images/lowBattery.png");
+    } else if (batteryLevel == 2) {
+        mypix = QPixmap(":/images/mediumBattery.png");
+    } else {
+        mypix = QPixmap(":/images/fullBattery.png");
+    }
+    ui->battery->setPixmap(mypix);
 }
 
 void MainWindow::on_playButton_clicked()

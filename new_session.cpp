@@ -2,6 +2,12 @@
 
 int NewSession::id = 0;
 
+NewSession::NewSession(QObject *parent):
+QObject{parent}
+{
+
+}
+
 NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection){
     progressBar = progress;
     lcdNumber = lcd;
@@ -19,6 +25,7 @@ bool NewSession::getPlaying() const
 
 void NewSession::startSession(time_t start_time)
 {
+    emit lowerBattery();
     complete = false;
     playing = true;
     // Update start_time
@@ -103,5 +110,6 @@ bool NewSession::getComplete() const
 {
     return complete;
 }
+
 
 

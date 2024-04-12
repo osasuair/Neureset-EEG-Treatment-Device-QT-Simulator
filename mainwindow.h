@@ -48,7 +48,6 @@ public:
 
     void triggerDateChange();
 
-
     void shutdown();
     void powerOn();
 
@@ -57,6 +56,7 @@ private:
     Ui::MainWindow *ui;
 
     bool power = false;
+    int batteryLevel = 3;
     int stackScreen = 0;
 
     QTimer *timer;
@@ -71,8 +71,7 @@ public slots:
     void disablePause(bool disable);
     void disableStop(bool disable);
 
-signals:
-    void setDisabled(bool disable);
+    void batteryLowered();
 
 private slots:
     void on_playButton_clicked();

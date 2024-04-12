@@ -4,6 +4,7 @@
 #include <ctime>
 #include <vector>
 
+#include <QObject>
 #include <QProgressBar>
 #include <QLCDNumber>
 #include <QTimer>
@@ -12,9 +13,12 @@
 #include <cmath>
 #include "log.h"
 
-class NewSession
+class NewSession: public QObject
 {
+    Q_OBJECT
+
 public:
+    explicit NewSession(QObject *parent = nullptr);
     NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log*);
 
     bool getPlaying() const;
@@ -32,6 +36,9 @@ public:
     void updateProgressBar();
 
     bool getComplete() const;
+
+signals:
+    void lowerBattery();
 
 private:
     static int id;
