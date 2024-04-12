@@ -100,6 +100,7 @@ void SessionManager::stopSession()
         waitTimer->stop();
         flashTimer->stop();
     }
+    siteManager->reset();
     playing = false;
     complete = true;
 }
@@ -122,6 +123,7 @@ void SessionManager::timeout()
 void SessionManager::endSession()
 {
     // End the session and return session log
+    log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
     stopSession();
     secondsRemaining =0;
     progress =100;
@@ -129,8 +131,6 @@ void SessionManager::endSession()
 
     qDebug() << "Session Complete";
     emit flashGreenLight();
-    log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
-    siteManager->reset();
     id++;
 }
 
