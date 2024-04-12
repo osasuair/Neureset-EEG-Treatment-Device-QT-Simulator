@@ -14,7 +14,7 @@ SOURCES += \
     mainwindow.cpp \
     qcustomplot.cpp \
     sessiondata.cpp \
-    new_session.cpp \
+    sessionmanager.cpp \
     sitemanager.cpp
 
 HEADERS += \
@@ -22,7 +22,7 @@ HEADERS += \
     mainwindow.h \
     qcustomplot.h \
     sessiondata.h \
-    new_session.h \
+    sessionmanager.h \
     sitemanager.h
 
 FORMS += \

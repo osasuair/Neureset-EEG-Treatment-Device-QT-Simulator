@@ -20,13 +20,14 @@
 #include <QMutex>
 
 #include "qcustomplot.h"
-#include "new_session.h"
+#include "sessionmanager.h"
 #include "log.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+// Enum for the different screens
 enum stackScreens {
     OFF,
     MENU,
@@ -65,15 +66,15 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    bool power = false;
+    bool power = false;  // Power status
     int batteryLevel = 5;
-    int stackScreen = 0;
-    bool nodesConnected = true;
+    int stackScreen = 0;  // Current screen
+    bool nodesConnected = true;  // Nodes connected status
 
     QTimer *timer;
-    QTimer *secondTimer; // Timer
+    QTimer *secondTimer; // Second timer for updating session data and UI
     time_t sys_time; // Current time
-    NewSession* newSession;
+    SessionManager* sessionManager; 
     QStandardItemModel *logModel;
     Log log;
 
