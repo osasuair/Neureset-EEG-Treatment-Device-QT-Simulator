@@ -205,8 +205,6 @@ void SiteManager::onTreatmentTimerTimeout()
 
 void SiteManager::startNextRound()
 {
-    // Reset any variables or perform any necessary cleanup for the current round
-    generated_waveforms.clear();
 
     // Update UI elements or perform any necessary UI updates for the next round
 
