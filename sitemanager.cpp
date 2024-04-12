@@ -10,12 +10,12 @@ SiteManager::SiteManager(QObject *parent)
     site = 0;
     baselineBefore = 0;
     baselineAfter = 0;
-        \
-    for (int i = 0; i < 21; ++i) {
-        WorkerThread *thread = new WorkerThread(this);
-        connect(thread, &WorkerThread::siteFinished, this, &SiteManager::onSiteFinished);
-        workerThreads[i] = thread;
-    }
+        
+    // for (int i = 0; i < 21; ++i) {
+    //     WorkerThread *thread = new WorkerThread(this);
+    //     connect(thread, &WorkerThread::siteFinished, this, &SiteManager::onSiteFinished);
+    //     workerThreads[i] = thread;
+    // }
 
     // Create treatment timer
     sessionTimer = new QTimer(NULL);
@@ -163,20 +163,21 @@ void SiteManager::applyTreatment(int site)
 void SiteManager::startNewSessionTimer()
 {
     // Start 21 threads for generating waveforms
-    for (int i = 0; i < 21; ++i) {
-        workerThreads[i]->start();
-    }
-
     // Start a 60-second timer for the session phase
-    sessionTimer->start(60*1000); // 60,000 milliseconds = 60 seconds
+    sessionTimer->start(3*1000); // 60,000 milliseconds = 60 seconds
     qDebug() << "analyzing waveform";
 }
 
 void SiteManager::onSessionTimeout()
 {
+    for (int i = 0; i < 21; ++i) {
+        onSiteFinished();
+        site++;
+    }
+    site = 0;
     qDebug() << "Moving to treatment phase";
     sessionTimer->stop();
-    createWaveforms();
+    //createWaveforms();
     emit completeRound();
 }
 
@@ -189,11 +190,12 @@ void SiteManager::onTreatmentTimerTimeout()
 {
     for(int i =0; i<21; ++i) {
         applyTreatment(i); // Apply treatment at the current site
-        createWaveforms();
+        //createWaveforms();
         qDebug() << "Site processing finished blahh.";
     }
 
     round++;
+    //generated_waveforms.clear();
 
     if (round == 6) {
         qDebug() << "all done";

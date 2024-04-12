@@ -103,7 +103,7 @@ void NewSession::treatmentComplete()
 {
     emit flashGreenLight();
     siteManager->createPlot();
-    siteManager->generated_waveforms.clear();
+    //siteManager->generated_waveforms.clear();
     if(siteManager->round <6){
         siteManager->startNewSessionTimer();
         return;
