@@ -1,5 +1,5 @@
-#ifndef NEW_SESSION_H
-#define NEW_SESSION_H
+#ifndef SESSIONMANAGER_H
+#define SESSIONMANAGER_H
 
 #include <ctime>
 #include <vector>
@@ -15,13 +15,13 @@
 #include "log.h"
 #include "sitemanager.h"
 
-class NewSession: public QObject
+class SessionManager: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit NewSession(QObject *parent = nullptr);
-    NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log*);
+    explicit SessionManager(QObject *parent = nullptr);
+    SessionManager(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log*);
 
     bool getPlaying() const;
     void setWavePlot(QCustomPlot *wavePlot);
@@ -69,4 +69,4 @@ private:
     SiteManager *siteManager;
 };
 
-#endif // NEW_SESSION_H
+#endif // SESSIONMANAGER_H

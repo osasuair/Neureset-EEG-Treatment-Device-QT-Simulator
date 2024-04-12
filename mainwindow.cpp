@@ -16,15 +16,15 @@ MainWindow::MainWindow(QWidget *parent)
     log.setListView(ui->sessionLogListView);
 
     QTimer *sessionWaitTimer = new QTimer(this);
-    newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
-    newSession->setWavePlot(ui->waveFormGraph);
+    sessionManager = new SessionManager(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
+    sessionManager->setWavePlot(ui->waveFormGraph);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
 
-    connect(newSession, &NewSession::flashBlueLight, this, &MainWindow::flashBlueLight);
-    connect(newSession, &NewSession::flashRedLight, this, &MainWindow::flashRedLight);
-    connect(newSession, &NewSession::flashGreenLight, this, &MainWindow::flashGreenLight);
+    connect(sessionManager, &SessionManager::flashBlueLight, this, &MainWindow::flashBlueLight);
+    connect(sessionManager, &SessionManager::flashRedLight, this, &MainWindow::flashRedLight);
+    connect(sessionManager, &SessionManager::flashGreenLight, this, &MainWindow::flashGreenLight);
 
-    connect(newSession, &NewSession::lowerBattery, this, &MainWindow::batteryLowered);
+    connect(sessionManager, &SessionManager::lowerBattery, this, &MainWindow::batteryLowered);
 
     startDisableTimer();
     startSecondTimer(); // Update every second
@@ -40,15 +40,15 @@ void MainWindow::startDisableTimer()
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [this]() {
-        disablePlay(newSession->getPlaying());
-        disablePause(!newSession->getPlaying() || newSession->getComplete());
-        disableStop(newSession->getComplete());
+        disablePlay(sessionManager->getPlaying());
+        disablePause(!sessionManager->getPlaying() || sessionManager->getComplete());
+        disableStop(sessionManager->getComplete());
     });
 }
 
 void MainWindow::sessionTimeout()
 {
-    newSession->timeout();
+    sessionManager->timeout();
     shutdown();
 }
 
@@ -56,7 +56,7 @@ void MainWindow::startSecondTimer()
 {
     secondTimer = new QTimer(this);
     connect(secondTimer, &QTimer::timeout, [this]() {
-        newSession->secondUpdates();
+        sessionManager->secondUpdates();
     });
 }
 
@@ -66,13 +66,13 @@ void MainWindow::startNewSession()
     ui->stackedWidget->setCurrentIndex(NEW_SESSION);
     timer->start(500);
     secondTimer->start(1000);
-    newSession->startSession(sys_time);
+    sessionManager->startSession(sys_time);
 
 }
 
 void MainWindow::endNewSession()
 {
-    newSession->stopSession();
+    sessionManager->stopSession();
     timer->stop();
     secondTimer->stop();
 
@@ -168,17 +168,17 @@ void MainWindow::updateBatteryIcon() {
 
 void MainWindow::on_playButton_clicked()
 {
-    newSession->resumeSession();
+    sessionManager->resumeSession();
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
-    newSession->pauseSession();
+    sessionManager->pauseSession();
 }
 
 void MainWindow::on_stopButton_clicked()
 {
-    newSession->stopSession();
+    sessionManager->stopSession();
 }
 
 
@@ -283,9 +283,9 @@ void MainWindow::on_chargeButton_clicked()
 
 void MainWindow::on_looseConnectionButton_clicked()
 {
-    if(stackScreen == NEW_SESSION && newSession->getPlaying()){
+    if(stackScreen == NEW_SESSION && sessionManager->getPlaying()){
        qDebug("Site Disconnected!");
-       newSession->pauseSession();
+       sessionManager->pauseSession();
     }
     else qDebug() <<  "Session not running";
 }
@@ -293,9 +293,9 @@ void MainWindow::on_looseConnectionButton_clicked()
 
 void MainWindow::on_reconnectButton_clicked()
 {
-    if (stackScreen == NEW_SESSION && newSession->getPlaying()){
+    if (stackScreen == NEW_SESSION && sessionManager->getPlaying()){
         qDebug("Site Disconnected!");
-        newSession->resumeSession();
+        sessionManager->resumeSession();
      }
     else qDebug() <<  "Session not running";
 }

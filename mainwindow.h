@@ -20,7 +20,7 @@
 #include <QMutex>
 
 #include "qcustomplot.h"
-#include "new_session.h"
+#include "sessionmanager.h"
 #include "log.h"
 
 QT_BEGIN_NAMESPACE
@@ -73,7 +73,7 @@ private:
     QTimer *timer;
     QTimer *secondTimer; // Timer
     time_t sys_time; // Current time
-    NewSession* newSession;
+    SessionManager* sessionManager;
     QStandardItemModel *logModel;
     Log log;
 

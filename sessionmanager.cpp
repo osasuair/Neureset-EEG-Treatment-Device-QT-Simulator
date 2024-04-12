@@ -1,13 +1,13 @@
-#include "new_session.h"
+#include "sessionmanager.h"
 
-int NewSession::id = 0;
+int SessionManager::id = 0;
 
-NewSession::NewSession(QObject *parent):
+SessionManager::SessionManager(QObject *parent):
 QObject{parent}
 {
 }
 
-NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection):
+SessionManager::SessionManager(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection):
     progressBar(progress),
     lcdNumber(lcd),
     waitTimer(timer),
@@ -19,23 +19,23 @@ NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, L
     flashTimer = new QTimer(this);
 
     connect(flashTimer, &QTimer::timeout, [this]() {emit flashRedLight(); qDebug("beep"); });
-    connect(siteManager, &SiteManager::sessionOver, this, &NewSession::endSession);
-    connect(siteManager, &SiteManager::completeRound, this, &NewSession::roundComplete);
-    connect(siteManager, &SiteManager::completeTreatment, this, &NewSession::treatmentComplete);
+    connect(siteManager, &SiteManager::sessionOver, this, &SessionManager::endSession);
+    connect(siteManager, &SiteManager::completeRound, this, &SessionManager::roundComplete);
+    connect(siteManager, &SiteManager::completeTreatment, this, &SessionManager::treatmentComplete);
 }
 
 
-bool NewSession::getPlaying() const
+bool SessionManager::getPlaying() const
 {
     return playing;
 }
 
-void NewSession::setWavePlot(QCustomPlot *wavePlot)
+void SessionManager::setWavePlot(QCustomPlot *wavePlot)
 {
     siteManager->setWaveFormGraph(wavePlot);
 }
 
-void NewSession::startSession(time_t start_time)
+void SessionManager::startSession(time_t start_time)
 {
     bool batteryDead = emit lowerBattery();
     if (batteryDead) return;
@@ -52,7 +52,7 @@ void NewSession::startSession(time_t start_time)
     emit flashBlueLight();
 }
 
-void NewSession::pauseSession()
+void SessionManager::pauseSession()
 {
     playing = false;
     flashTimer->start(1000);;
@@ -60,7 +60,7 @@ void NewSession::pauseSession()
     siteManager->pauseSession();
 }
 
-void NewSession::resumeSession()
+void SessionManager::resumeSession()
 {
     waitTimer->stop();
     flashTimer->stop();
@@ -72,7 +72,7 @@ void NewSession::resumeSession()
     playing = true;
 }
 
-void NewSession::stopSession()
+void SessionManager::stopSession()
 {
     if(waitTimer->isActive()) {
         waitTimer->stop();
@@ -83,14 +83,14 @@ void NewSession::stopSession()
     complete = true;
 }
 
-void NewSession::timeout()
+void SessionManager::timeout()
 {
     playing = false;
     complete = false;
     qInfo("time OUTT!!!");
 }
 
-void NewSession::endSession()
+void SessionManager::endSession()
 {
     // End the session and return session log
     stopSession();
@@ -104,13 +104,13 @@ void NewSession::endSession()
     id++;
 }
 
-void NewSession::roundComplete()
+void SessionManager::roundComplete()
 {
     siteManager->startTreatmentPhase();
     emit flashGreenLight();
 }
 
-void NewSession::treatmentComplete()
+void SessionManager::treatmentComplete()
 {
     emit flashGreenLight();
     siteManager->createPlot();
@@ -124,7 +124,7 @@ void NewSession::treatmentComplete()
 
 }
 
-void NewSession::secondUpdates()
+void SessionManager::secondUpdates()
 {
     // Update values
     if (playing) {
@@ -135,7 +135,7 @@ void NewSession::secondUpdates()
     updateProgressBar();;
 }
 
-void NewSession::updateLCDTime()
+void SessionManager::updateLCDTime()
 {
     int minutes = secondsRemaining / 60;
     int seconds = secondsRemaining % 60;
@@ -147,7 +147,7 @@ void NewSession::updateLCDTime()
     lcdNumber->display(displayText);
 }
 
-void NewSession::updateProgressBar()
+void SessionManager::updateProgressBar()
 {
     if (progressBar->value() != progress)
     {
@@ -155,7 +155,7 @@ void NewSession::updateProgressBar()
     }
 }
 
-bool NewSession::getComplete() const
+bool SessionManager::getComplete() const
 {
     return complete;
 }
