@@ -41,6 +41,8 @@ public:
 
 public slots:
     void endSession();
+    void roundComplete();
+    void treatmentComplete();
 
 signals:
     void lowerBattery();

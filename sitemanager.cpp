@@ -22,8 +22,6 @@ SiteManager::SiteManager(QObject *parent)
     connect(sessionTimer, &QTimer::timeout, this, &SiteManager::onSessionTimeout);
 
     // Create treatment timer
-    treatmentTimer = new QTimer(NULL);
-    connect(treatmentTimer, &QTimer::timeout, this, &SiteManager::onTreatmentTimerTimeout);
 }
 
 void SiteManager::setWaveFormGraph(QCustomPlot *waveForm)
@@ -170,7 +168,7 @@ void SiteManager::startNewSessionTimer()
     }
 
     // Start a 60-second timer for the session phase
-    sessionTimer->start(60000); // 60,000 milliseconds = 60 seconds
+    sessionTimer->start(60*1000); // 60,000 milliseconds = 60 seconds
     qDebug() << "analyzing waveform";
 }
 
@@ -179,36 +177,30 @@ void SiteManager::onSessionTimeout()
     qDebug() << "Moving to treatment phase";
     sessionTimer->stop();
     createWaveforms();
-    startTreatmentPhase(); // Start the treatment phase
+    emit completeRound();
 }
 
 void SiteManager::startTreatmentPhase()
 {
-    for(int i = 0; i<21; i++) {
-        onTreatmentTimerTimeout();
-    }
+    QTimer::singleShot(1, this, &SiteManager::onTreatmentTimerTimeout);
 }
 
 void SiteManager::onTreatmentTimerTimeout()
 {
-    applyTreatment(site); // Apply treatment at the current site
-
-    // Check if all sites have been treated in this round
-    if (site == 0) {
-        // Move to the next round
-        round++;
-
-        // Reset site counter for the next round
-        site = 0;
-
-        // Perform any other actions needed for transitioning to the next round
-        startNextRound();
-        // Stop the treatment timer until the next round starts
-        treatmentTimer->stop();
-    } else {
-        // Move to the next site for treatment
-        site++;
+    for(int i =0; i<21; ++i) {
+        applyTreatment(i); // Apply treatment at the current site
+        createWaveforms();
+        qDebug() << "Site processing finished blahh.";
     }
+
+    round++;
+
+    if (round == 6) {
+        qDebug() << "all done";
+        qDebug() << "baselline b4" <<baselineBefore;
+        qDebug() << "baseline after" <<baselineAfter;
+    }
+    emit completeTreatment();
 }
 
 void SiteManager::startNextRound()
@@ -222,15 +214,19 @@ void SiteManager::startNextRound()
         startNewSessionTimer();
         return;
     }else{
-        emit sessionOver();
+//        emit sessionOver();
         qDebug() << "all done";
-        qDebug() << baselineBefore;
-        qDebug() << baselineAfter;
+        qDebug() << "baselline b4" <<baselineBefore;
+        qDebug() << "baseline after" <<baselineAfter;
     }
 
 }
 
 void SiteManager::onSiteFinished()
 {
-    qDebug() << "Site processing finished.";
+    QTimer::singleShot(0, this, [this]()
+    {
+        createWaveforms();
+        qDebug() << "Site processing finished.";
+    });
 }

@@ -49,6 +49,8 @@ public slots:
 
 signals:
     void sessionOver();
+    void completeRound();
+    void completeTreatment();
 
 private:
     MainWindow *mainWindow; // Pointer to MainWindow if needed

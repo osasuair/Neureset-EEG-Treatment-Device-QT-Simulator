@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
     newSession->setWavePlot(ui->waveFormGraph);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
+
     connect(newSession, &NewSession::flashBlueLight, this, &MainWindow::flashBlueLight);
     connect(newSession, &NewSession::flashRedLight, this, &MainWindow::flashRedLight);
     connect(newSession, &NewSession::flashGreenLight, this, &MainWindow::flashGreenLight);
@@ -126,7 +127,7 @@ void MainWindow::flashBlueLight()
 void MainWindow::flashGreenLight()
 {
     ui->greenLight->setStyleSheet("background-color: #90EE90; border: 1px solid black"); // Lighter green color
-    QTimer::singleShot(300, this, [=](){ ui->greenLight->setStyleSheet("background-color: rgb(0, 180, 0); border: 1px solid black"); });
+    QTimer::singleShot(1000, this, [=](){ ui->greenLight->setStyleSheet("background-color: rgb(0, 180, 0); border: 1px solid black"); });
 }
 
 

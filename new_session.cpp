@@ -5,7 +5,6 @@ int NewSession::id = 0;
 NewSession::NewSession(QObject *parent):
 QObject{parent}
 {
-    connect(siteManager, &SiteManager::sessionOver, this, &NewSession::endSession);
 }
 
 NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection):
@@ -16,6 +15,10 @@ NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, L
     siteManager(new SiteManager())
 {
     updateLCDTime();
+
+    connect(siteManager, &SiteManager::sessionOver, this, &NewSession::endSession);
+    connect(siteManager, &SiteManager::completeRound, this, &NewSession::roundComplete);
+    connect(siteManager, &SiteManager::completeTreatment, this, &NewSession::treatmentComplete);
 }
 
 
@@ -35,7 +38,7 @@ void NewSession::startSession(time_t start_time)
     complete = false;
     playing = true;
     // Set secondsRemaining to 5min and 5 seconds
-    secondsRemaining = 306;
+    secondsRemaining = 305;
     // Update start_time
     this->start_time = start_time;
 
@@ -88,6 +91,26 @@ void NewSession::endSession()
     emit flashGreenLight();
     log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
     id++;
+}
+
+void NewSession::roundComplete()
+{
+    siteManager->startTreatmentPhase();
+    emit flashGreenLight();
+}
+
+void NewSession::treatmentComplete()
+{
+    emit flashGreenLight();
+    siteManager->createPlot();
+    siteManager->generated_waveforms.clear();
+    if(siteManager->round <6){
+        siteManager->startNewSessionTimer();
+        return;
+    }
+    endSession();
+
+
 }
 
 void NewSession::secondUpdates()
