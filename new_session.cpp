@@ -16,6 +16,9 @@ NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, L
 {
     updateLCDTime();
 
+    flashTimer = new QTimer(this);
+
+    connect(flashTimer, &QTimer::timeout, [this]() {emit flashRedLight(); qDebug("beep"); });
     connect(siteManager, &SiteManager::sessionOver, this, &NewSession::endSession);
     connect(siteManager, &SiteManager::completeRound, this, &NewSession::roundComplete);
     connect(siteManager, &SiteManager::completeTreatment, this, &NewSession::treatmentComplete);
@@ -34,7 +37,9 @@ void NewSession::setWavePlot(QCustomPlot *wavePlot)
 
 void NewSession::startSession(time_t start_time)
 {
-    emit lowerBattery();
+    bool batteryDead = emit lowerBattery();
+    if (batteryDead) return;
+
     complete = false;
     playing = true;
     // Set secondsRemaining to 5min and 5 seconds
@@ -50,16 +55,20 @@ void NewSession::startSession(time_t start_time)
 void NewSession::pauseSession()
 {
     playing = false;
-    emit flashRedLight();
-    waitTimer->start(1000*10);
+    flashTimer->start(1000);;
+    waitTimer->start(1000*30);
+    siteManager->pauseSession();
 }
 
 void NewSession::resumeSession()
 {
+    waitTimer->stop();
+    flashTimer->stop();
+
     if (complete){
         startSession(start_time);
     }
-    waitTimer->stop();
+    siteManager->resumeSession();
     playing = true;
 }
 
@@ -67,7 +76,9 @@ void NewSession::stopSession()
 {
     if(waitTimer->isActive()) {
         waitTimer->stop();
+        flashTimer->stop();
     }
+    siteManager->reset();
     playing = false;
     complete = true;
 }

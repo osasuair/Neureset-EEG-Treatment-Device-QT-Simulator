@@ -45,7 +45,7 @@ public slots:
     void treatmentComplete();
 
 signals:
-    void lowerBattery();
+    bool lowerBattery();
     void flashBlueLight();
     void flashRedLight();
     void flashGreenLight();
@@ -63,6 +63,7 @@ private:
     QProgressBar *progressBar;
     QLCDNumber *lcdNumber;
     QTimer *waitTimer;
+    QTimer *flashTimer;
     QDateTime *time;
     Log *log;
     SiteManager *siteManager;

@@ -4,15 +4,12 @@
 #include <QObject>
 #include <QTimer>
 #include "qcustomplot.h"
-#include "workerthread.h"
 #include <QVector>
 #include <QPair>
 #include <iostream>
 #include <chrono>
 #include <QThread>
 #include <QMutex>
-
-class MainWindow;
 
 class SiteManager : public QObject
 {
@@ -24,15 +21,15 @@ public:
 
     QCustomPlot* waveFormGraph;
 
-    QTimer* treatmentTimer;
     QTimer* sessionTimer;
     int round;
     int site;
+    int remainingTime = 60*1000;
+    bool inSession = true;
     double baselineBefore;
     double baselineAfter;
     std::vector<QPair<QVector<double>, QVector<double>>> generated_waveforms;
     std::vector<double> dominantFrequencies;
-    WorkerThread* workerThreads[21];
 
     void reset();
     void createPlot();
@@ -43,17 +40,15 @@ public slots:
     void startNewSessionTimer();
     void onSessionTimeout();
     void startTreatmentPhase();
+    void pauseSession();
+    void resumeSession();
     void onTreatmentTimerTimeout();
-    void startNextRound();
     void onSiteFinished();
 
 signals:
     void sessionOver();
     void completeRound();
     void completeTreatment();
-
-private:
-    MainWindow *mainWindow; // Pointer to MainWindow if needed
 };
 
 #endif // SITEMANAGER_H

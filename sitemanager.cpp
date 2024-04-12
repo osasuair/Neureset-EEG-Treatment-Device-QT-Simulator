@@ -1,5 +1,4 @@
 #include "sitemanager.h"
-#include "sitemanager.h"
 
 
 SiteManager::SiteManager(QObject *parent)
@@ -10,18 +9,9 @@ SiteManager::SiteManager(QObject *parent)
     site = 0;
     baselineBefore = 0;
     baselineAfter = 0;
-        
-    // for (int i = 0; i < 21; ++i) {
-    //     WorkerThread *thread = new WorkerThread(this);
-    //     connect(thread, &WorkerThread::siteFinished, this, &SiteManager::onSiteFinished);
-    //     workerThreads[i] = thread;
-    // }
 
-    // Create treatment timer
     sessionTimer = new QTimer(NULL);
     connect(sessionTimer, &QTimer::timeout, this, &SiteManager::onSessionTimeout);
-
-    // Create treatment timer
 }
 
 void SiteManager::setWaveFormGraph(QCustomPlot *waveForm)
@@ -33,10 +23,14 @@ void SiteManager::setWaveFormGraph(QCustomPlot *waveForm)
 
 void SiteManager::reset()
 {
+    if (sessionTimer->isActive())
+        sessionTimer->stop();
     round = 1;
     site = 0;
     baselineBefore = 0;
     baselineAfter = 0;
+    generated_waveforms.clear();
+    dominantFrequencies.clear();
 }
 
 void SiteManager::createPlot()
@@ -162,9 +156,9 @@ void SiteManager::applyTreatment(int site)
 
 void SiteManager::startNewSessionTimer()
 {
-    // Start 21 threads for generating waveforms
     // Start a 60-second timer for the session phase
-    sessionTimer->start(3*1000); // 60,000 milliseconds = 60 seconds
+    sessionTimer->start(60*1000); // 60,000 milliseconds = 60 seconds
+    qDebug() << "Starting round: " << round;
     qDebug() << "analyzing waveform";
 }
 
@@ -186,40 +180,39 @@ void SiteManager::startTreatmentPhase()
     QTimer::singleShot(1, this, &SiteManager::onTreatmentTimerTimeout);
 }
 
+void SiteManager::pauseSession()
+{
+    if (sessionTimer->isActive()) {
+        remainingTime = sessionTimer->remainingTime();
+        sessionTimer->stop();
+        inSession = true;
+    } else {
+        inSession = false;
+    }
+
+}
+
+void SiteManager::resumeSession()
+{
+    if(inSession) {
+        sessionTimer->start(remainingTime);
+    }
+}
+
 void SiteManager::onTreatmentTimerTimeout()
 {
     for(int i =0; i<21; ++i) {
         applyTreatment(i); // Apply treatment at the current site
-        //createWaveforms();
         qDebug() << "Site processing finished blahh.";
     }
 
     round++;
-    //generated_waveforms.clear();
-
-    if (round == 6) {
+    if (round > 6) {
         qDebug() << "all done";
         qDebug() << "baselline b4" <<baselineBefore;
         qDebug() << "baseline after" <<baselineAfter;
     }
     emit completeTreatment();
-}
-
-void SiteManager::startNextRound()
-{
-
-    // Update UI elements or perform any necessary UI updates for the next round
-
-    if (round < 5) {
-        startNewSessionTimer();
-        return;
-    }else{
-//        emit sessionOver();
-        qDebug() << "all done";
-        qDebug() << "baselline b4" <<baselineBefore;
-        qDebug() << "baseline after" <<baselineAfter;
-    }
-
 }
 
 void SiteManager::onSiteFinished()

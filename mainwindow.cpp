@@ -117,7 +117,7 @@ void MainWindow::disableStop(bool disable){
 void MainWindow::flashRedLight()
 {
     ui->redLight->setStyleSheet("background-color: #FFA07A; border: 1px solid black"); // Lighter red color
-    QTimer::singleShot(300, this, [=](){ ui->redLight->setStyleSheet("background-color: rgb(200, 0, 0); border: 1px solid black"); });
+    QTimer::singleShot(150, this, [=](){ ui->redLight->setStyleSheet("background-color: rgb(200, 0, 0); border: 1px solid black"); });
 }
 
 void MainWindow::flashBlueLight()
@@ -133,18 +133,32 @@ void MainWindow::flashGreenLight()
 }
 
 
-void MainWindow::batteryLowered()
+bool MainWindow::batteryLowered()
 {
     --batteryLevel;
 
+    updateBatteryIcon();
+    return batteryLevel == 0;
+}
+
+void MainWindow::chargeBattery()
+{
+    batteryLevel = 5;
+    updateBatteryIcon();
+}
+
+void MainWindow::updateBatteryIcon() {
     QPixmap mypix;
     if(batteryLevel <= 0) {
         batteryLevel = 0;
-        if (power) shutdown();
+        if (power) {
+            qDebug() << "Shutting down! Charge Battery";
+            shutdown();
+        }
         mypix = QPixmap(":/images/noBattery.png");
-    } else if (batteryLevel == 1) {
+    } else if (batteryLevel <= 2) {
         mypix = QPixmap(":/images/lowBattery.png");
-    } else if (batteryLevel == 2) {
+    } else if (batteryLevel <= 4) {
         mypix = QPixmap(":/images/mediumBattery.png");
     } else {
         mypix = QPixmap(":/images/fullBattery.png");
@@ -258,5 +272,31 @@ void MainWindow::on_pushButton_2_clicked()
 {
     QDateTime datetime = ui->dateTimeEdit->dateTime();
     sys_time = datetime.toTime_t();
+}
+
+
+void MainWindow::on_chargeButton_clicked()
+{
+    chargeBattery();
+}
+
+
+void MainWindow::on_looseConnectionButton_clicked()
+{
+    if(stackScreen == NEW_SESSION && newSession->getPlaying()){
+       qDebug("Site Disconnected!");
+       newSession->pauseSession();
+    }
+    else qDebug() <<  "Session not running";
+}
+
+
+void MainWindow::on_reconnectButton_clicked()
+{
+    if (stackScreen == NEW_SESSION && newSession->getPlaying()){
+        qDebug("Site Disconnected!");
+        newSession->resumeSession();
+     }
+    else qDebug() <<  "Session not running";
 }
 

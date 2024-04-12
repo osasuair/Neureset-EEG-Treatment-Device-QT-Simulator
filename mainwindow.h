@@ -20,7 +20,6 @@
 #include <QMutex>
 
 #include "qcustomplot.h"
-#include "workerthread.h"
 #include "new_session.h"
 #include "log.h"
 
@@ -60,14 +59,16 @@ public:
 
     void shutdown();
     void powerOn();
-
+    void updateBatteryIcon();
+    void chargeBattery();
 
 private:
     Ui::MainWindow *ui;
 
     bool power = false;
-    int batteryLevel = 3;
+    int batteryLevel = 5;
     int stackScreen = 0;
+    bool nodesConnected = true;
 
     QTimer *timer;
     QTimer *secondTimer; // Timer
@@ -85,7 +86,7 @@ public slots:
     void flashBlueLight();
     void flashGreenLight();
 
-    void batteryLowered();
+    bool batteryLowered();
 
 private slots:
     void on_playButton_clicked();
@@ -98,5 +99,8 @@ private slots:
     void on_menuDownButton_clicked();
     void on_sessionButton_clicked();
     void on_pushButton_2_clicked();
+    void on_chargeButton_clicked();
+    void on_looseConnectionButton_clicked();
+    void on_reconnectButton_clicked();
 };
 #endif // MAINWINDOW_H
