@@ -11,7 +11,9 @@
 #include <QString>
 #include <QPushButton>
 #include <cmath>
+
 #include "log.h"
+#include "sitemanager.h"
 
 class NewSession: public QObject
 {
@@ -22,6 +24,7 @@ public:
     NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log*);
 
     bool getPlaying() const;
+    void setWavePlot(QCustomPlot *wavePlot);
 
     void clearSession();
     void startSession(time_t start_time);
@@ -29,7 +32,6 @@ public:
     void resumeSession();
     void stopSession();
     void timeout();
-    void endSession();
 
     void secondUpdates();
     void updateLCDTime();
@@ -37,8 +39,14 @@ public:
 
     bool getComplete() const;
 
+public slots:
+    void endSession();
+
 signals:
     void lowerBattery();
+    void flashBlueLight();
+    void flashRedLight();
+    void flashGreenLight();
 
 private:
     static int id;
@@ -47,7 +55,6 @@ private:
     bool complete = false;
     time_t start_time;
     time_t end_time;
-    Log *log;
 
     int secondsRemaining = 5*60;
 
@@ -55,6 +62,8 @@ private:
     QLCDNumber *lcdNumber;
     QTimer *waitTimer;
     QDateTime *time;
+    Log *log;
+    SiteManager *siteManager;
 };
 
 #endif // NEW_SESSION_H

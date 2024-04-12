@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>711</width>
-    <height>570</height>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -2619,6 +2619,16 @@ Baselines</string>
      </property>
     </widget>
    </widget>
+   <widget class="QCustomPlot" name="waveFormGraph" native="true">
+    <property name="geometry">
+     <rect>
+      <x>225</x>
+      <y>390</y>
+      <width>221</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -2632,6 +2642,14 @@ Baselines</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="Resource.qrc"/>
  </resources>

@@ -5,15 +5,16 @@ int NewSession::id = 0;
 NewSession::NewSession(QObject *parent):
 QObject{parent}
 {
-
+    connect(siteManager, &SiteManager::sessionOver, this, &NewSession::endSession);
 }
 
-NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection){
-    progressBar = progress;
-    lcdNumber = lcd;
-    waitTimer = timer;
-
-    log = collection;
+NewSession::NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log* collection):
+    progressBar(progress),
+    lcdNumber(lcd),
+    waitTimer(timer),
+    log(collection),
+    siteManager(new SiteManager())
+{
     updateLCDTime();
 }
 
@@ -23,20 +24,30 @@ bool NewSession::getPlaying() const
     return playing;
 }
 
+void NewSession::setWavePlot(QCustomPlot *wavePlot)
+{
+    siteManager->setWaveFormGraph(wavePlot);
+}
+
 void NewSession::startSession(time_t start_time)
 {
     emit lowerBattery();
     complete = false;
     playing = true;
+    // Set secondsRemaining to 5min and 5 seconds
+    secondsRemaining = 306;
     // Update start_time
     this->start_time = start_time;
-    // Set secondsRemaining to 5min
-    secondsRemaining = 5*60;
+
+    // Update start_time
+    siteManager->startNewSessionTimer();
+    emit flashBlueLight();
 }
 
 void NewSession::pauseSession()
 {
     playing = false;
+    emit flashRedLight();
     waitTimer->start(1000*10);
 }
 
@@ -65,13 +76,17 @@ void NewSession::timeout()
     qInfo("time OUTT!!!");
 }
 
-
-
 void NewSession::endSession()
 {
     // End the session and return session log
-    complete = true;
-    log->addSession(id, end_time, 5.0, 8.0);
+    stopSession();
+    secondsRemaining =0;
+    progress =100;
+    secondUpdates();
+
+    qDebug() << "Session Complete";
+    emit flashGreenLight();
+    log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
     id++;
 }
 
@@ -80,7 +95,7 @@ void NewSession::secondUpdates()
     // Update values
     if (playing) {
         secondsRemaining--;
-        progress = 100-std::round(float(secondsRemaining)/300*100);
+        progress = 100-std::round((float(secondsRemaining)/306)*100);
     }
     updateLCDTime();
     updateProgressBar();;

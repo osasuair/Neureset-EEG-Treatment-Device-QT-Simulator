@@ -17,7 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTimer *sessionWaitTimer = new QTimer(this);
     newSession = new NewSession(ui->sessionProgressBar, ui->sessionClock, sessionWaitTimer, &log);
+    newSession->setWavePlot(ui->waveFormGraph);
     connect(sessionWaitTimer, &QTimer::timeout, [this]() { sessionTimeout(); });
+    connect(newSession, &NewSession::flashBlueLight, this, &MainWindow::flashBlueLight);
+    connect(newSession, &NewSession::flashRedLight, this, &MainWindow::flashRedLight);
+    connect(newSession, &NewSession::flashGreenLight, this, &MainWindow::flashGreenLight);
 
     connect(newSession, &NewSession::lowerBattery, this, &MainWindow::batteryLowered);
 
@@ -106,6 +110,25 @@ void MainWindow::disablePause(bool disable){
 void MainWindow::disableStop(bool disable){
     emit ui->stopButton->setDisabled(disable);
 }
+
+void MainWindow::flashRedLight()
+{
+    ui->redLight->setStyleSheet("background-color: #FFA07A; border: 1px solid black"); // Lighter red color
+    QTimer::singleShot(300, this, [=](){ ui->redLight->setStyleSheet("background-color: rgb(200, 0, 0); border: 1px solid black"); });
+}
+
+void MainWindow::flashBlueLight()
+{
+    ui->blueLight->setStyleSheet("background-color: #87CEEB; border: 1px solid black"); // Lighter blue color
+    QTimer::singleShot(300, this, [=](){ ui->blueLight->setStyleSheet("background-color: rgb(0, 0, 200); border: 1px solid black"); });
+}
+
+void MainWindow::flashGreenLight()
+{
+    ui->greenLight->setStyleSheet("background-color: #90EE90; border: 1px solid black"); // Lighter green color
+    QTimer::singleShot(300, this, [=](){ ui->greenLight->setStyleSheet("background-color: rgb(0, 180, 0); border: 1px solid black"); });
+}
+
 
 void MainWindow::batteryLowered()
 {

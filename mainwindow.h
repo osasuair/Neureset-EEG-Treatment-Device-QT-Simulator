@@ -10,7 +10,17 @@
 #include <QStandardItem>
 #include <ctime>
 #include <string>
+#include <random>
+#include <cmath>
+#include <QVector>
+#include <QPair>
+#include <iostream>
+#include <chrono>
+#include <QThread>
+#include <QMutex>
 
+#include "qcustomplot.h"
+#include "workerthread.h"
 #include "new_session.h"
 #include "log.h"
 
@@ -70,6 +80,10 @@ public slots:
     void disablePlay(bool disable);
     void disablePause(bool disable);
     void disableStop(bool disable);
+
+    void flashRedLight();
+    void flashBlueLight();
+    void flashGreenLight();
 
     void batteryLowered();
 
