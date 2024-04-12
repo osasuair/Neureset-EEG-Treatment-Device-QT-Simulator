@@ -78,7 +78,6 @@ void NewSession::stopSession()
         waitTimer->stop();
         flashTimer->stop();
     }
-    siteManager->reset();
     playing = false;
     complete = true;
 }
@@ -101,6 +100,7 @@ void NewSession::endSession()
     qDebug() << "Session Complete";
     emit flashGreenLight();
     log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
+    siteManager->reset();
     id++;
 }
 

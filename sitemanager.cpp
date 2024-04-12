@@ -12,12 +12,13 @@ SiteManager::SiteManager(QObject *parent)
 
     sessionTimer = new QTimer(NULL);
     connect(sessionTimer, &QTimer::timeout, this, &SiteManager::onSessionTimeout);
+    re.seed(std::chrono::steady_clock::now().time_since_epoch().count());
 }
 
 void SiteManager::setWaveFormGraph(QCustomPlot *waveForm)
 {
     waveFormGraph = waveForm;
-    createWaveforms();
+    createWaveforms(re);
     createPlot();
 }
 
@@ -55,15 +56,10 @@ void SiteManager::createPlot()
     waveFormGraph->replot();
 }
 
-void SiteManager::createWaveforms()
+void SiteManager::createWaveforms(std::default_random_engine& re)
 {
     const int num_points = 30; // Number of data points to generate
     const double time_step = 0.02; // Time step
-
-
-    // Seed the random number generator with current time
-    unsigned seed = QDateTime::currentDateTime().toTime_t();
-    std::default_random_engine re(seed);
 
     // Storage for randomly selected frequencies and amplitudes for each category
     std::vector<double> frequencies(4);
@@ -120,14 +116,14 @@ void SiteManager::createWaveforms()
 
     dominantFrequencies.push_back(dominant_frequency);
 
-    if (round == 1 && site == 0) {
+    if (round == 1 && site == 20) {
         double sum = 0.0;
         for (double freq : dominantFrequencies) {
             sum += freq;
         }
         baselineBefore = sum / dominantFrequencies.size();
     }
-    else if (round == 4 && site == 0){
+    else if (round == 5 && site == 20){
         double sum = 0.0;
         for (double freq : dominantFrequencies) {
             sum += freq;
@@ -217,9 +213,6 @@ void SiteManager::onTreatmentTimerTimeout()
 
 void SiteManager::onSiteFinished()
 {
-    QTimer::singleShot(0, this, [this]()
-    {
-        createWaveforms();
+        createWaveforms(re);
         qDebug() << "Site processing finished.";
-    });
 }
