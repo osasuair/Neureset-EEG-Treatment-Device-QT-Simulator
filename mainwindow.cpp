@@ -95,6 +95,8 @@ void MainWindow::shutdown()
 
 void MainWindow::powerOn()
 {
+    if (batteryLevel == 0)
+        return;
     power=true;
     stackScreen = MENU;
     ui->stackedWidget->setCurrentIndex(stackScreen);
@@ -138,6 +140,7 @@ void MainWindow::batteryLowered()
     QPixmap mypix;
     if(batteryLevel <= 0) {
         batteryLevel = 0;
+        if (power) shutdown();
         mypix = QPixmap(":/images/noBattery.png");
     } else if (batteryLevel == 1) {
         mypix = QPixmap(":/images/lowBattery.png");
