@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>711</width>
-    <height>570</height>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -985,7 +985,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="offScreenPage">
        <widget class="QFrame" name="offScreen">
@@ -1165,6 +1165,9 @@
          <enum>QFrame::Raised</enum>
         </property>
         <widget class="QListView" name="sessionLogListView">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -1178,6 +1181,9 @@
            <family>DejaVu Sans</family>
            <pointsize>9</pointsize>
           </font>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
         </widget>
         <widget class="QLabel" name="sessionLogTitle">
@@ -2619,6 +2625,16 @@ Baselines</string>
      </property>
     </widget>
    </widget>
+   <widget class="QCustomPlot" name="waveFormGraph" native="true">
+    <property name="geometry">
+     <rect>
+      <x>225</x>
+      <y>390</y>
+      <width>221</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -2632,6 +2648,14 @@ Baselines</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="Resource.qrc"/>
  </resources>

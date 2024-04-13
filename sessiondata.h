@@ -15,8 +15,8 @@ public:
     // GETTERS
 
     int getID();
-    int getBeforeBaseline();
-    int getAfterBaseline();
+    float getBeforeBaseline();
+    float getAfterBaseline();
 
     /**
      * @brief return the string version of the date from struct tm in the format dd/mm/yyyy

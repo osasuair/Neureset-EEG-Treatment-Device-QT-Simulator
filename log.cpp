@@ -11,7 +11,6 @@ Log::Log(QObject *parent)
     
 }
 
-
 Log::~Log(){
 
     int len = sessionArr.size();
@@ -20,8 +19,10 @@ Log::~Log(){
     }
 }
 
-// buch of sessiondata pointers
-
+/**
+ * @brief Log::setupHeader
+ * Set up the header for the log
+ */
 void Log::setupHeader(){
 
     // Header Values to be displayed in SEssion LOg
@@ -33,9 +34,16 @@ void Log::setupHeader(){
     QList<QStandardItem*> rowItems;
     rowItems.append(new QStandardItem(dateHeader)); // Add the date string as the first column
     logModel->appendRow(rowItems);
-
 }
 
+/**
+ * @brief Log::addSession
+ * @param id int id of the session
+ * @param now time_t end time of the session
+ * @param before_baseline float before baseline frequency
+ * @param after_baseline float after baseline frequency
+ * Add a session to the log
+ */
 void Log::addSession (int id, time_t now, float before_baseline, float after_baseline){
     SessionData *session = new SessionData(id, now, before_baseline, after_baseline);
     sessionArr.push_back(session);
@@ -53,11 +61,19 @@ void Log::addSession (int id, time_t now, float before_baseline, float after_bas
     logModel->appendRow(rowItems);
 }
 
+/**
+ * @brief Log::addSession
+ * @param session SessionData* session
+ * Add a session to the log
+ */
 void Log::addSession(SessionData * session){
     sessionArr.push_back(session);
 }
 
-// only display date and time from sessions
+/**
+ * @brief Log::printSession
+ * print only the date and time from sessions for the log Menu
+ */
 void Log::printSession(){
     for(auto el=begin(sessionArr); el!= end(sessionArr); ++el){
                 cout<<"ID: " <<(*el)->getID() <<", Date: " << (*el)->getDateStr()<<endl;
@@ -65,19 +81,26 @@ void Log::printSession(){
 
 }
 
-// display date, time and baseline frequencies
+/**
+ * @brief Log::printToPC
+ * print the date, time and baseline frequencies to the PC (console)
+ */
 void Log::printToPC(){
     cout<<"--- Session Log Data ---"<<endl;
     for(auto el=begin(sessionArr); el!= end(sessionArr); ++el){
                 cout<<"ID: " <<(*el)->getID() << endl;
                 cout<<"Date: " << (*el)->getDateStr()<<endl;
-                cout<<"Before_Baseline " << (*el)->getBeforeBaseline()<<endl;
-                cout<<"After_Baseline " << (*el)->getAfterBaseline()<<endl<<endl;
+                cout<<"Before_Baseline " << setprecision(5) << (*el)->getBeforeBaseline()<<endl;
+                cout<<"After_Baseline " << setprecision(5) << (*el)->getAfterBaseline()<<endl<<endl;
 
      }
 }
 
-
+/**
+ * @brief Log::setListView
+ * @param list QListView* list
+ * Set the list view for the log
+ */
 void Log::setListView(QListView *list){
     logView = list;
     logView ->setModel(logModel);

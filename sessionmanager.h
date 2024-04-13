@@ -1,5 +1,5 @@
-#ifndef NEW_SESSION_H
-#define NEW_SESSION_H
+#ifndef SESSIONMANAGER_H
+#define SESSIONMANAGER_H
 
 #include <ctime>
 #include <vector>
@@ -11,25 +11,27 @@
 #include <QString>
 #include <QPushButton>
 #include <cmath>
-#include "log.h"
 
-class NewSession: public QObject
+#include "log.h"
+#include "sitemanager.h"
+
+class SessionManager: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit NewSession(QObject *parent = nullptr);
-    NewSession(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log*);
+    explicit SessionManager(QObject *parent = nullptr);
+    SessionManager(QProgressBar *progress, QLCDNumber *lcd, QTimer *timer, Log*);
 
     bool getPlaying() const;
+    void setWavePlot(QCustomPlot *wavePlot);
 
     void clearSession();
     void startSession(time_t start_time);
     void pauseSession();
     void resumeSession();
     void stopSession();
-    void timeout();
-    void endSession();
+    void timeout();  // Session Timeout function
 
     void secondUpdates();
     void updateLCDTime();
@@ -37,8 +39,16 @@ public:
 
     bool getComplete() const;
 
+public slots:
+    void endSession();
+    void roundComplete();
+    void treatmentComplete();
+
 signals:
-    void lowerBattery();
+    bool lowerBattery();
+    void flashBlueLight();
+    void flashRedLight();
+    void flashGreenLight();
 
 private:
     static int id;
@@ -47,14 +57,16 @@ private:
     bool complete = false;
     time_t start_time;
     time_t end_time;
-    Log *log;
 
-    int secondsRemaining = 5*60;
+    int secondsRemaining = 305;  // 5 minutes and 5 seconds for LCD display
 
     QProgressBar *progressBar;
     QLCDNumber *lcdNumber;
     QTimer *waitTimer;
+    QTimer *flashTimer;
     QDateTime *time;
+    Log *log;
+    SiteManager *siteManager;
 };
 
-#endif // NEW_SESSION_H
+#endif // SESSIONMANAGER_H

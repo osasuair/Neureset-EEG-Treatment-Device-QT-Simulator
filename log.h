@@ -4,6 +4,7 @@
 #include <QObject>
 #include <vector>
 #include <iostream>
+#include <iomanip>
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QListView>
