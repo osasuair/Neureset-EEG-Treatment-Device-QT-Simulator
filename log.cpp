@@ -90,8 +90,8 @@ void Log::printToPC(){
     for(auto el=begin(sessionArr); el!= end(sessionArr); ++el){
                 cout<<"ID: " <<(*el)->getID() << endl;
                 cout<<"Date: " << (*el)->getDateStr()<<endl;
-                cout<<"Before_Baseline " << (*el)->getBeforeBaseline()<<endl;
-                cout<<"After_Baseline " << (*el)->getAfterBaseline()<<endl<<endl;
+                cout<<"Before_Baseline " << setprecision(5) << (*el)->getBeforeBaseline()<<endl;
+                cout<<"After_Baseline " << setprecision(5) << (*el)->getAfterBaseline()<<endl<<endl;
 
      }
 }

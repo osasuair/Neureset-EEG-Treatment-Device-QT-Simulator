@@ -199,7 +199,7 @@ void SiteManager::onTreatmentTimerTimeout()
 {
     for(int i =0; i<21; ++i) {
         applyTreatment(i); // Apply treatment at the current site
-        qDebug() << "Site processing finished blahh.";
+        qDebug() << "Site processing finished.";
     }
 
     round++;

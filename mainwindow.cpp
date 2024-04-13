@@ -237,7 +237,6 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_menuListWidget_itemClicked(QListWidgetItem *item)
 {
     int index = ui->menuListWidget->row(item);
-    cout<<index<<endl;
     if (index == NEW_SESSION-2) {
         startNewSession();
     } else if (index == 2) {

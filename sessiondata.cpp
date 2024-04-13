@@ -52,17 +52,17 @@ string SessionData::getDateStr(){
 }
 
 string SessionData::getData(){
-    return to_string(getID()) + "      " + getDateStr() + "\n";
+    return to_string(getID()) + "     " + getDateStr() + "\n";
 }
 
 int SessionData::getID(){
     return this->id;
 }
 
-int SessionData::getBeforeBaseline(){
+float SessionData::getBeforeBaseline(){
     return this->before_baseline;
 }
 
-int SessionData::getAfterBaseline(){
+float SessionData::getAfterBaseline(){
     return this->after_baseline;
 }

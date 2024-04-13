@@ -985,7 +985,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="offScreenPage">
        <widget class="QFrame" name="offScreen">
@@ -1165,6 +1165,9 @@
          <enum>QFrame::Raised</enum>
         </property>
         <widget class="QListView" name="sessionLogListView">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -1178,6 +1181,9 @@
            <family>DejaVu Sans</family>
            <pointsize>9</pointsize>
           </font>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
         </widget>
         <widget class="QLabel" name="sessionLogTitle">

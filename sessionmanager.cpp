@@ -123,6 +123,7 @@ void SessionManager::timeout()
 void SessionManager::endSession()
 {
     // End the session and return session log
+    end_time = start_time + (305-secondsRemaining);
     log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
     stopSession();
     secondsRemaining =0;
