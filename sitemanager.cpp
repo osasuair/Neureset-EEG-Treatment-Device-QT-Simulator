@@ -15,6 +15,11 @@ SiteManager::SiteManager(QObject *parent)
     re.seed(std::chrono::steady_clock::now().time_since_epoch().count());
 }
 
+/**
+ * @brief SiteManager::setWaveFormGraph
+ * @param waveForm QCustomPlot* waveForm
+ * Set the waveFormGraph to the SiteManager
+ */
 void SiteManager::setWaveFormGraph(QCustomPlot *waveForm)
 {
     waveFormGraph = waveForm;
@@ -22,6 +27,10 @@ void SiteManager::setWaveFormGraph(QCustomPlot *waveForm)
     createPlot();
 }
 
+/**
+ * @brief SiteManager::reset
+ * Reset the SiteManager
+ */
 void SiteManager::reset()
 {
     if (sessionTimer->isActive())
@@ -34,6 +43,10 @@ void SiteManager::reset()
     dominantFrequencies.clear();
 }
 
+/**
+ * @brief SiteManager::createPlot
+ * Create the plot for the waveforms
+ */
 void SiteManager::createPlot()
 {
     // Retrieve the waveform data
@@ -56,6 +69,11 @@ void SiteManager::createPlot()
     waveFormGraph->replot();
 }
 
+/**
+ * @brief SiteManager::createWaveforms
+ * @param re std::default_random_engine& random engine
+ * Create the waveforms for the SiteManager
+ */
 void SiteManager::createWaveforms(std::default_random_engine& re)
 {
     const int num_points = 30; // Number of data points to generate
@@ -145,11 +163,20 @@ void SiteManager::createWaveforms(std::default_random_engine& re)
     generated_waveforms.push_back(QPair<QVector<double>, QVector<double>>(x, y));
 }
 
+/**
+ * @brief SiteManager::applyTreatment
+ * @param site int site
+ * Apply treatment to the site
+ */
 void SiteManager::applyTreatment(int site)
 {
     dominantFrequencies[site] += 5;
 }
 
+/**
+ * @brief SiteManager::startNewSessionTimer
+ * Start a new session timer
+ */
 void SiteManager::startNewSessionTimer()
 {
     // Start a 60-second timer for the session phase
@@ -158,6 +185,10 @@ void SiteManager::startNewSessionTimer()
     qDebug() << "analyzing waveform";
 }
 
+/**
+ * @brief SiteManager::onSessionTimeout
+ * Handle when the round completes
+ */
 void SiteManager::onSessionTimeout()
 {
     for (int i = 0; i < 21; ++i) {
@@ -168,14 +199,22 @@ void SiteManager::onSessionTimeout()
     qDebug() << "Moving to treatment phase";
     sessionTimer->stop();
     //createWaveforms();
-    emit completeRound();
+    emit completeRound();  // Emit signal to indicate that the round is complete to the SessionManager
 }
 
+/**
+ * @brief SiteManager::startTreatmentPhase
+ * Start the treatment phase
+ */
 void SiteManager::startTreatmentPhase()
 {
     QTimer::singleShot(1, this, &SiteManager::onTreatmentTimerTimeout);
 }
 
+/**
+ * @brief SiteManager::pauseSession
+ * Pause the session
+ */
 void SiteManager::pauseSession()
 {
     if (sessionTimer->isActive()) {
@@ -188,6 +227,10 @@ void SiteManager::pauseSession()
 
 }
 
+/**
+ * @brief SiteManager::resumeSession
+ * Resume the session
+ */
 void SiteManager::resumeSession()
 {
     if(inSession) {
@@ -195,6 +238,10 @@ void SiteManager::resumeSession()
     }
 }
 
+/**
+ * @brief SiteManager::onTreatmentTimerTimeout
+ * Handle when the treatment timer times out
+ */
 void SiteManager::onTreatmentTimerTimeout()
 {
     for(int i =0; i<21; ++i) {
@@ -211,6 +258,10 @@ void SiteManager::onTreatmentTimerTimeout()
     emit completeTreatment();
 }
 
+/**
+ * @brief SiteManager::onSiteFinished
+ * Handle when the site processing is finished
+ */
 void SiteManager::onSiteFinished()
 {
         createWaveforms(re);
