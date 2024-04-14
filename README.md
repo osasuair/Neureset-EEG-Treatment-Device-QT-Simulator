@@ -7,3 +7,5 @@
 - Student Numbers: 101222543
 - Names: Ian Musembi
 - Student Numbers: 101240204
+- Name: Jordon Samuda
+- Student Number: 101228980
