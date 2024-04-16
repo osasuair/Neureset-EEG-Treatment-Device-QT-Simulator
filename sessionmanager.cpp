@@ -42,10 +42,10 @@ void SessionManager::setWavePlot(QCustomPlot *wavePlot)
 
 /**
  * @brief SessionManager::clearSession
- * @param start_time time_t start time of the session
+ * @param sys_time time_t start time of the session
  * Clear the session and reset the SiteManager
 */
-void SessionManager::startSession(time_t start_time)
+void SessionManager::startSession(time_t sys_time)
 {
     bool batteryDead = emit lowerBattery();
     if (batteryDead) return;
@@ -54,10 +54,12 @@ void SessionManager::startSession(time_t start_time)
     playing = true;
     // Set secondsRemaining to 5min and 5 seconds
     secondsRemaining = 305;
-    // Update start_time
-    this->start_time = start_time;
+    progress = 0;
+    
+    // Update sys_time
+    this->sys_time = sys_time;
+    start_time = time(0);  // Start time of the session
 
-    // Update start_time
     siteManager->startNewSessionTimer();
     emit flashBlueLight();
 }
@@ -84,7 +86,7 @@ void SessionManager::resumeSession()
     flashTimer->stop();
 
     if (complete){
-        startSession(start_time);
+        startSession(sys_time);
     }
     siteManager->resumeSession();
     playing = true;
@@ -123,7 +125,7 @@ void SessionManager::timeout()
 void SessionManager::endSession()
 {
     // End the session and return session log
-    end_time = start_time + (305-secondsRemaining);
+    time_t end_time = sys_time + (time(0) - start_time);
     log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
     stopSession();
     secondsRemaining =0;
