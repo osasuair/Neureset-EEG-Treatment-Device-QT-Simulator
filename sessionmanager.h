@@ -64,7 +64,6 @@ private:
     QLCDNumber *lcdNumber;
     QTimer *waitTimer;
     QTimer *flashTimer;
-    QDateTime *time;
     Log *log;
     SiteManager *siteManager;
 };

@@ -125,7 +125,7 @@ void SessionManager::timeout()
 void SessionManager::endSession()
 {
     // End the session and return session log
-    time_t end_time = sys_time + (time(0) - start_time);
+    time_t end_time = sys_time + (time(NULL) - start_time);
     log->addSession(id, end_time, siteManager->baselineBefore, siteManager->baselineAfter);
     stopSession();
     secondsRemaining =0;
