@@ -86,7 +86,7 @@ void Log::printSession(){
  * print the date, time and baseline frequencies to the PC (console)
  */
 void Log::printToPC(){
-    cout<<"--- Session Log Data ---"<<endl;
+    cout<<endl<<"--- Session Log Data ---"<<endl;
     for(auto el=begin(sessionArr); el!= end(sessionArr); ++el){
                 cout<<"ID: " <<(*el)->getID() << endl;
                 cout<<"Date: " << (*el)->getDateStr()<<endl;

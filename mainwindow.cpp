@@ -13,8 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentIndex(OFF);
 
     // Log setup
-    logModel = new QStandardItemModel(this);
-    ui->sessionLogListView->setModel(logModel);
     log.setListView(ui->sessionLogListView);
 
     // Session setup
@@ -336,9 +334,9 @@ void MainWindow::on_looseConnectionButton_clicked()
 void MainWindow::on_reconnectButton_clicked()
 {
     if (stackScreen == NEW_SESSION && sessionManager->getPlaying()){
-        qDebug("Site Disconnected!");
+        qDebug("Site Reconnected!");
         sessionManager->resumeSession();
      }
-    else qDebug() <<  "Session not running";
+    else qDebug() <<  "Session running";
 }
 
