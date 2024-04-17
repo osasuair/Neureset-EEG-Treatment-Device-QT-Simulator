@@ -55,8 +55,8 @@ private:
     int progress = 0;
     bool playing = false;
     bool complete = false;
+    time_t sys_time;
     time_t start_time;
-    time_t end_time;
 
     int secondsRemaining = 305;  // 5 minutes and 5 seconds for LCD display
 
@@ -64,7 +64,6 @@ private:
     QLCDNumber *lcdNumber;
     QTimer *waitTimer;
     QTimer *flashTimer;
-    QDateTime *time;
     Log *log;
     SiteManager *siteManager;
 };
