@@ -333,7 +333,7 @@ void MainWindow::on_looseConnectionButton_clicked()
 */
 void MainWindow::on_reconnectButton_clicked()
 {
-    if (stackScreen == NEW_SESSION && sessionManager->getPlaying()){
+    if (stackScreen == NEW_SESSION && !sessionManager->getPlaying()){
         qDebug("Site Reconnected!");
         sessionManager->resumeSession();
      }
