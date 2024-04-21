@@ -22,6 +22,9 @@ https://youtu.be/ar4zhA0pqc8?si=DPHy4Hq6T0lHkpQx
 - Select Open from the Project pane on the welcome screen and select the .pro file in the directory.
 - Using QT, run the opened project using the green play button. (QT automatically builds before execution).
 
+#### Sending output to terminal as shown in video:
+In QTCreator, on the left column, select the Projects tab, under "Build & Run" select "Desktop - Run" and check the field that says "run in terminal".
+
 #### Notes:
 - This repository contains the source code for Team 27's COMP3004 final project.
 - Please see the zip file submitted via brightspace.
