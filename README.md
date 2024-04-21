@@ -13,14 +13,14 @@ Jordon Samuda
 101240204,
 101228980
 
+#### Video Link: 
+https://www.youtube.com/watch?v=Yd_y59ml5uY
+
 ### Compilation and Execution Instructions:
 - In the virtual machine, clone this repo and remember the location you place it.
 - Open the QT Creator application.
 - Select Open from the Project pane on the welcome screen and select the .pro file in the directory.
 - Using QT, run the opened project using the green play button. (QT automatically builds before execution).
-
-#### Video Link: 
-https://www.youtube.com/watch?v=Yd_y59ml5uY
 
 #### Notes:
 - This repository contains the source code for Team 27's COMP3004 final project.
