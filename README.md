@@ -14,7 +14,7 @@ Jordon Samuda
 101228980
 
 #### Video Link: 
-https://www.youtube.com/watch?v=Yd_y59ml5uY
+https://youtu.be/ar4zhA0pqc8?si=DPHy4Hq6T0lHkpQx
 
 #### Compilation and Execution Instructions:
 - In the virtual machine, clone this repo and remember the location you place it.
