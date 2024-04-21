@@ -1,11 +1,19 @@
 # COMP3004 Final Project
-- Names: Paul Airuehia
-- Student Numbers: 101219909
-- Names: Nahom Seyfu
-- Student Numbers: 101222274
-- Names: Saad Nouman
-- Student Numbers: 101222543
-- Names: Ian Musembi
-- Student Numbers: 101240204
-- Name: Jordon Samuda
-- Student Number: 101228980
+Group Members - Team 27: 
+Paul Airuehia
+Nahom Seyfu
+Saad Nouman
+Ian Musembi
+Jordon Samuda
+
+101219909
+101222274
+101222543
+101240204
+101228980
+
+Video Link: https://www.youtube.com/watch?v=Yd_y59ml5uY
+
+Notes:
+- The project report containing the uses cases, design documentation, and traceability matrix can be found in the team27-comp3004-finalproject.pdf file that was submitted via Brightspace.
+  
