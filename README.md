@@ -23,7 +23,7 @@ https://youtu.be/ar4zhA0pqc8?si=DPHy4Hq6T0lHkpQx
 - Using QT, run the opened project using the green play button. (QT automatically builds before execution).
 
 #### How to show output in terminal as seen in the video:
-In QTCreator, on the left column, select the Projects tab, under "Build & Run" select "Desktop - Run" and check the field that says "run in terminal".
+- In QTCreator, on the left column, select the Projects tab, under "Build & Run" select "Desktop - Run" and check the field that says "run in terminal".
 
 #### Notes:
 - This repository contains the source code for Team 27's COMP3004 final project.
