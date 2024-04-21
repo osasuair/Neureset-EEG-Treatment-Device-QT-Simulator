@@ -16,7 +16,7 @@ Jordon Samuda
 #### Video Link: 
 https://www.youtube.com/watch?v=Yd_y59ml5uY
 
-### Compilation and Execution Instructions:
+#### Compilation and Execution Instructions:
 - In the virtual machine, clone this repo and remember the location you place it.
 - Open the QT Creator application.
 - Select Open from the Project pane on the welcome screen and select the .pro file in the directory.
