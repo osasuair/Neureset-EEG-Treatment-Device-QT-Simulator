@@ -18,8 +18,9 @@ https://www.youtube.com/watch?v=Yd_y59ml5uY
 
 #### Notes:
 - This repository contains the source code for Team 27's COMP3004 final project.
+- Please see the zip file submitted via brightspace.
 - The uses cases, design documentation, and traceability matrix can be found in the team27-comp3004-finalproject.pdf file that was submitted via Brightspace.
-- A seperate README file, which highlights the allocation of tasks, can be found in the README.txt file that was submitted via Brightspace.
+
   
   
   
