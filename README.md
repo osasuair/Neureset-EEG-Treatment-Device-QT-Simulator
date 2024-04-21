@@ -1,12 +1,12 @@
 # COMP3004 Final Project
-### Group Members - Team 27: 
+#### Group Members - Team 27: 
 Paul Airuehia,
 Nahom Seyfu,
 Saad Nouman,
 Ian Musembi,
 Jordon Samuda
 
-#### Student IDs
+#### Student IDs:
 101219909,
 101222274,
 101222543,
