@@ -16,6 +16,6 @@ Jordon Samuda
 #### Video Link: 
 https://www.youtube.com/watch?v=Yd_y59ml5uY
 
-### Notes:
+#### Notes:
 - The project report containing the uses cases, design documentation, and traceability matrix can be found in the team27-comp3004-finalproject.pdf file that was submitted via Brightspace.
   
