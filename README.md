@@ -1,11 +1,4 @@
 # Neuroset EEG Treatment Simulator with QT6 c++
-#### Development Team: 
-Paul Airuehia
-Nahom Seyfu
-Saad Nouman
-Ian Musembi
-Jordon Samuda
-
 #### Description: 
 This project implements a Neuroset EEG Treatment Device Simulator using QT6 and C++. The simulator provides a graphical user interface (GUI) to mimic the functionality of a real Neuroset device.
 
@@ -23,6 +16,13 @@ C++: Programming language for implementing simulator logic.
 
 #### Video Link: 
 https://youtu.be/ar4zhA0pqc8?si=DPHy4Hq6T0lHkpQx
+
+#### Contributers
+- Ian Musembi
+- Jordon Samuda
+- Nahom Seyfu
+- Paul Airuehia
+- Saad Nouman
 
 #### Compilation and Execution Instructions:
 - Clone this repo and remember the location you place it in the virtual machine. 
