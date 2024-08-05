@@ -1,4 +1,4 @@
-# Neuroset EEG Treatment Simulator with QT6 c++
+# Neuroset EEG Treatment Simulator with C++ QT6
 #### Description: 
 This project implements a Neuroset EEG Treatment Device Simulator using QT6 and C++. The simulator provides a graphical user interface (GUI) to mimic the functionality of a real Neuroset device.
 
