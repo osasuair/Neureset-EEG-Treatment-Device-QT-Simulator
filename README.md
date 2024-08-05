@@ -6,13 +6,6 @@ Saad Nouman,
 Ian Musembi,
 Jordon Samuda
 
-#### Student IDs:
-101219909,
-101222274,
-101222543,
-101240204,
-101228980
-
 #### Video Link: 
 https://youtu.be/ar4zhA0pqc8?si=DPHy4Hq6T0lHkpQx
 
